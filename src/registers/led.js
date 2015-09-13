@@ -1,4 +1,6 @@
 
+var ColorChannelEditor = require('../util/ColorChannelEditor');
+
 const MODULE_OPCODE = 0x2;
 
 var
@@ -7,6 +9,7 @@ var
     MODE = 0x3;
 
 var Led = function(device) {
+    this.ColorChannelEditor = ColorChannelEditor;
     this.device = device;
 };
 

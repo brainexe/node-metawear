@@ -8,17 +8,31 @@ var Haptic = function(device) {
 };
 
 Haptic.prototype.startBuzzer = function(duration) {
-    var buffer = new Buffer(4);
+    var buffer = new Buffer(6);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = PULSE;
-    // 0
+    buffer[2] = 127; // duty cycle
+    buffer.writeInt16LE(duration, 3);
+    buffer[5] = 0x1;
+
+    console.log(buffer);
+    //this.device.send(buffer);
 };
 
-Haptic.prototype.startMotor = function(strength, duration) {
-    var buffer = new Buffer(4);
+Haptic.prototype.startMotor = function(duration, strength) {
+    strength = strength || 100;
+
+    var converted = (duration / 100) * 248;
+
+    var buffer = new Buffer(6);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = PULSE;
-    // 1
+    buffer[2] = converted & 0xff; // duty cycle
+    buffer.writeInt16LE(strength, 3);
+    buffer[5] = 0x0;
+
+    console.log(buffer);
+    //this.device.send(buffer);
 };
 
 

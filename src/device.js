@@ -74,5 +74,9 @@ Device.prototype.Gpio           = require('./registers/gpio');
 Device.prototype.Switch         = require('./registers/switch');
 Device.prototype.Settings       = require('./registers/settings');
 Device.prototype.DataProcessing = require('./registers/data-processing');
+Device.prototype.AmbiantLight   = require('./registers/ambient-light');
+Device.prototype.Haptic         = require('./registers/haptic');
+Device.prototype.Barometer      = require('./registers/barometer');
+Device.prototype.Timer          = require('./registers/timer');
 
 module.exports = Device;

@@ -8,11 +8,31 @@ var Temperature = function(device) {
     this.device = device;
 };
 
-Temperature.prototype.getValue = function() {
+/**
+ * @param {Function} callback
+ */
+Temperature.prototype.getValue = function(callback) {
     var buffer = new Buffer(3);
     buffer.fill(0);
     buffer[0] = MODULE_OPCODE;
-    buffer[1] = 0x1;
+    buffer[1] = VALUE;
+
+    this.device.emitter.once([MODULE_OPCODE, VALUE], function(buffer) {
+        var temp = buffer.readUInt16BE(0);
+        callback(temp);
+    });
+
+    this.device.sendRead(buffer);
+};
+
+Temperature.prototype.enableThermistorMode = function(analogReadPin, pulldownPin) {
+    var buffer = new Buffer(3);
+    buffer.fill(0);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = THERMISTOR;
+    buffer[2] = 0x1;
+    buffer[3] = analogReadPin;
+    buffer[4] = pulldownPin;
 
     this.device.sendRead(buffer);
 };

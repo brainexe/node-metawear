@@ -19,7 +19,7 @@ Switch.prototype.register = function() {
 Switch.prototype.onChange = function(callback) {
     this.device.emitter.on([MODULE_OPCODE, STATE], function(buffer) {
         callback(buffer.readInt8(0));
-    })
+    });
 };
 
 module.exports = Switch;
