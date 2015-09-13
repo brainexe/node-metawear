@@ -1,11 +1,14 @@
 
 const MODULE_OPCODE = 0x4;
 
+const VALUE = 0x1;
+const THERMISTOR = 0x5;
+
 var Temperature = function(device) {
     this.device = device;
 };
 
-    Temperature.prototype.getValue = function() {
+Temperature.prototype.getValue = function() {
     var buffer = new Buffer(3);
     buffer.fill(0);
     buffer[0] = MODULE_OPCODE;

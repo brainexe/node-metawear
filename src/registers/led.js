@@ -10,6 +10,9 @@ var Led = function(device) {
     this.device = device;
 };
 
+/**
+ * @param {Boolean} autoplay
+ */
 Led.prototype.play = function(autoplay) {
     var buffer = new Buffer(3);
     buffer.fill(0);

@@ -4,9 +4,9 @@
   "description": "API for metawear",
   "main": "index.js",
   "dependencies": {
-    "debug": "^2.2.0",
-    "noble": "*",
-    "noble-device": "^1.1.0",
+    "debug": "~2.2",
+    "eventemitter2": "~0.4",
+    "noble-device": "~1.1",
     "promise": "^7.0.4"
   },
   "devDependencies": {},

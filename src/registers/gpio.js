@@ -1,5 +1,4 @@
 
-
 const MODULE_OPCODE = 0x05;
 
 var Gpio = function(device) {

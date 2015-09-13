@@ -9,11 +9,17 @@ var Switch = function(device) {
 
 Switch.prototype.register = function() {
     var buffer = new Buffer(2);
-    buffer[0] = MODULE_OPCODE;
-    buffer[1] = STATE;
-    buffer[2] = 1;
+    buffer[0]  = MODULE_OPCODE;
+    buffer[1]  = STATE;
+    buffer[2]  = 1;
 
     this.device.send(buffer);
+};
+
+Switch.prototype.onChange = function(callback) {
+    this.device.emitter.on([MODULE_OPCODE, STATE], function(buffer) {
+        callback(buffer.readInt8(0));
+    })
 };
 
 module.exports = Switch;

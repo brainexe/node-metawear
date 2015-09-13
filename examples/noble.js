@@ -1,6 +1,6 @@
 
 var devices  = require('./../src/device');
-var ledColor = require('../src/ColorChannelEditor');
+var ledColor = require('../src/util/ColorChannelEditor');
 
 devices.discover(function(device) {
     device.on('disconnect', function() {
@@ -21,11 +21,13 @@ devices.discover(function(device) {
         });
 
         // load some registers
-        var log = new device.Log(device);
-        var gpio = new device.Gpio(device);
-        var led = new device.Led(device);
+        var log     = new device.Log(device);
+        var gpio    = new device.Gpio(device);
+        var led     = new device.Led(device);
         var settings = new device.Settings(device);
         var switchR = new device.Switch(device);
+        var temperature = new device.Temperature(device);
+        var dataProcessing = new device.DataProcessing(device);
 
         // blink LED 20 times in blue
         var mode = new ledColor();
@@ -46,25 +48,32 @@ devices.discover(function(device) {
         gpio.startPinChangeDetection(1);
         gpio.startPinChangeDetection(2);
 
-        var temperature = new device.Temperature(device);
-
         log.enable();
         log.removeAll();
 
-        switchR.register();
+        dataProcessing.enableNotification();
 
-        settings.deviceName();
+        switchR.register();
+        switchR.onChange(function(status) {
+            console.log("swittch status: ", status);
+        });
+
 
         setInterval(function() {
             temperature.getValue();
 
             log.trigger();
             log.readOut();
-
         }, 3000);
+
+        settings.getDeviceName(function(deviceName) {
+            console.log("Device name: " + deviceName);
+        });
 
         device.readBatteryLevel(function(error, batteryLevel) {
             console.log("Battery:", batteryLevel);
         });
+
+        settings.setDeviceName('Matzes Device');
     });
 });
