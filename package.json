@@ -1,17 +1,17 @@
 {
   "name": "node-metawear",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "API for metawear",
-  "main": "index.js",
   "dependencies": {
     "debug": "~2.2",
     "eventemitter2": "~0.4",
     "noble-device": "~1.1",
     "promise": "^7.0.4"
   },
+  "repository": "git@github.com:brainexe/node-metawear.git",
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "cd tests && jasmine"
   },
   "author": "Matthias Dötsch <matze@mdoetsch.de>",
   "license": "MIT"

@@ -80,7 +80,7 @@ Log.prototype.downloadLog = function() {
         if (!length) {
             return; // no logs
         }
-        var progress = 0;
+        var progress = 1;
         var entriesNotify = length * progress;
 
         console.log(length, 'logs');

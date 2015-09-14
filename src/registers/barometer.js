@@ -12,17 +12,17 @@ var Barometer = function(device) {
 
 Barometer.prototype.enable = function() {
     var buffer = new Buffer(3);
-    buffer[0] = MODULE_OPCODE;
-    buffer[1] = PRESSURE;
-    buffer[2] = 0x1;
+    buffer[0]  = MODULE_OPCODE;
+    buffer[1]  = PRESSURE;
+    buffer[2]  = 0x1;
     this.device.send(buffer);
 };
 
 Barometer.prototype.disable = function() {
     var buffer = new Buffer(3);
-    buffer[0] = MODULE_OPCODE;
-    buffer[1] = PRESSURE;
-    buffer[2] = 0x0;
+    buffer[0]  = MODULE_OPCODE;
+    buffer[1]  = PRESSURE;
+    buffer[2]  = 0x0;
     this.device.send(buffer);
 };
 

@@ -5,11 +5,11 @@ const ENABLE = 0x1;
 const CONFIG = 0x2;
 const OUTPUT = 0x3;
 
-var AmbiantLight = function(device) {
+var AmbientLight = function(device) {
     this.device = device;
 };
 
-AmbiantLight.prototype.enable = function() {
+AmbientLight.prototype.enable = function() {
     // todo config interface
     var ltr329Rate = 4;
     var ltr329Time = 1;
@@ -30,4 +30,4 @@ AmbiantLight.prototype.enable = function() {
 
 };
 
-module.exports = AmbiantLight;
+module.exports = AmbientLight;

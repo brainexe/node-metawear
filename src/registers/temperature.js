@@ -18,7 +18,13 @@ Temperature.prototype.getValue = function(callback) {
     buffer[1] = VALUE;
 
     this.device.emitter.once([MODULE_OPCODE, VALUE], function(buffer) {
-        var temp = buffer.readUInt16BE(0);
+        var temp = buffer.readInt16LE(0) / 8;
+        callback(temp);
+        var temp = buffer.readInt16BE(0) / 8;
+        callback(temp);
+        //var temp = buffer.readIntLE(0) / 8;
+        //callback(temp);
+        var temp = buffer.readInt8(0) / 8;
         callback(temp);
     });
 

@@ -51,7 +51,10 @@ devices.discover(function(device) {
         gpio.startPinChangeDetection(1);
         gpio.startPinChangeDetection(2);
 
-        //log.startLogging(false);
+        log.startLogging(false);
+        log.downloadLog(function(line) {
+            console.log('Log: ', line);
+        });
 
         dataProcessing.enableNotification();
 
@@ -64,10 +67,6 @@ devices.discover(function(device) {
             temperature.getValue(function(temp) {
                 console.log('Temperature: ', temp);
             });
-
-            //log.downloadLog(function(line) {
-            //    console.log('Log: ', line);
-            //});
         }, 5000);
 
         settings.getDeviceName(function(deviceName) {
