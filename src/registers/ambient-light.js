@@ -1,9 +1,10 @@
 
 const MODULE_OPCODE = 0x11;
 
-const ENABLE = 0x1;
-const CONFIG = 0x2;
-const OUTPUT = 0x3;
+const
+    ENABLE = 0x1,
+    CONFIG = 0x2,
+    OUTPUT = 0x3;
 
 var AmbientLight = function(device) {
     this.device = device;

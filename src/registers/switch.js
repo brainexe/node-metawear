@@ -8,10 +8,10 @@ var Switch = function(device) {
 };
 
 Switch.prototype.register = function() {
-    var buffer = new Buffer(2);
+    var buffer = new Buffer(3);
     buffer[0]  = MODULE_OPCODE;
     buffer[1]  = STATE;
-    buffer[2]  = 1;
+    buffer[2]  = 0x1;
 
     this.device.send(buffer);
 };

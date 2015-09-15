@@ -11,7 +11,7 @@ var registers = module.exports.byId = {
     0x07: 'IBEACON',
     0x08: 'HAPTIC',
     0x09: 'DATA_PROCESSOR',
-    0x0a: 'EVENT',
+    0x0a: 'Event',
     0x0b: 'LOGGING',
     0x0c: 'TIMER',
     0x0d: 'I2C',

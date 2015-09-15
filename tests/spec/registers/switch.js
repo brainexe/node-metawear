@@ -1,11 +1,14 @@
-// todo
+
+var
+    Register = require('../../../src/registers/switch'),
+    device   = new (require('../helpers/device'));
 
 describe("Test switch register", function() {
-    var a;
+    var subject = new Register(device);
 
     it("enable listener", function() {
-        a = true;
+        subject.register();
 
-        expect(a).toBe(true);
+        expect(device.buffers.pop().toString()).toBe(new Buffer('010101', 'hex').toString());
     });
 });

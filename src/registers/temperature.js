@@ -1,8 +1,9 @@
 
 const MODULE_OPCODE = 0x4;
 
-const VALUE = 0x1;
-const THERMISTOR = 0x5;
+const
+    VALUE = 0x1,
+    THERMISTOR = 0x5;
 
 var Temperature = function(device) {
     this.device = device;

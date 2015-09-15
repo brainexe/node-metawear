@@ -1,10 +1,11 @@
 
 const MODULE_OPCODE = 0x12;
 
-const PRESSURE = 0x1;
-const ALTITUDE = 0x2;
-const CONFIG   = 0x3;
-const CYCLIC   = 0x4;
+const
+    PRESSURE = 0x1,
+    ALTITUDE = 0x2,
+    CONFIG   = 0x3,
+    CYCLIC   = 0x4;
 
 var Barometer = function(device) {
     this.device = device;

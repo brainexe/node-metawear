@@ -4,9 +4,10 @@ var
     registers    = require('./registers/registers'),
     debug        = require('debug')('noble-device');
 
-const SERVICE_UUID = '326a900085cb9195d9dd464cfbbae75a';
-const COMMAND_UUID = '326a900185cb9195d9dd464cfbbae75a';
-const NOTIFY_UUID  = '326a900685cb9195d9dd464cfbbae75a';
+const BASE_URI = '326a#id#85cb9195d9dd464cfbbae75a',
+    SERVICE_UUID = BASE_URI.replace('#id#', '9000');
+    COMMAND_UUID = BASE_URI.replace('#id#', '9001');
+    NOTIFY_UUID = BASE_URI.replace('#id#', '9006');
 
 var Device = function(peripheral) {
     debug('start');
@@ -76,7 +77,10 @@ Device.prototype.Accelerometer  = require('./registers/accelerometer');
 Device.prototype.AmbiantLight   = require('./registers/ambient-light');
 Device.prototype.Barometer      = require('./registers/barometer');
 Device.prototype.DataProcessing = require('./registers/data-processing');
+Device.prototype.Debug          = require('./registers/debug');
+Device.prototype.Event          = require('./registers/event');
 Device.prototype.Gpio           = require('./registers/gpio');
+Device.prototype.Gyro           = require('./registers/gyro');
 Device.prototype.Haptic         = require('./registers/haptic');
 Device.prototype.Led            = require('./registers/led');
 Device.prototype.Log            = require('./registers/log');

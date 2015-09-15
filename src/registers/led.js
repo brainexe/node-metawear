@@ -3,7 +3,7 @@ var ColorChannelEditor = require('../util/ColorChannelEditor');
 
 const MODULE_OPCODE = 0x2;
 
-var
+const
     PLAY = 0x1,
     STOP = 0x2,
     MODE = 0x3;

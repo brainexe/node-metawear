@@ -70,7 +70,7 @@ devices.discover(function(device) {
         }, 5000);
 
         settings.getDeviceName(function(deviceName) {
-            console.log("Device name: " + deviceName);
+            console.log("device name: " + deviceName);
         });
 
         ambientLight.enable();

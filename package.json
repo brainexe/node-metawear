@@ -1,12 +1,11 @@
 {
   "name": "node-metawear",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "API for metawear",
   "dependencies": {
     "debug": "~2.2",
     "eventemitter2": "~0.4",
-    "noble-device": "~1.1",
-    "promise": "^7.0.4"
+    "noble-device": "~1.1"
   },
   "repository": "git@github.com:brainexe/node-metawear.git",
   "devDependencies": {},

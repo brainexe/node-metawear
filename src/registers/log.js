@@ -1,7 +1,7 @@
 
 const MODULE_OPCODE = 0x0b;
 
-var
+const
     ENABLE = 0x1,
     TRIGGER = 0x2,
     REMOVE = 0x3,

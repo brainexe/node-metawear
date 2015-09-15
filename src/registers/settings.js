@@ -1,14 +1,15 @@
 
 const MODULE_OPCODE = 0x11;
 
-const DEVICE_NAME = 0x1;
-const ADVERTISING_INTERVAL = 0x2;
-const TX_POWER = 0x3;
-const DELETE_BOND = 0x4;
-const START_ADVERTISEMENT = 0x5;
-const INIT_BOND = 0x6;
-const SCAN_RESPONSE = 0x7;
-const PARTIAL_SCAN_RESPONSE = 0x8;
+const
+    DEVICE_NAME = 0x1,
+    ADVERTISING_INTERVAL = 0x2,
+    TX_POWER = 0x3,
+    DELETE_BOND = 0x4,
+    START_ADVERTISEMENT = 0x5,
+    INIT_BOND = 0x6,
+    SCAN_RESPONSE = 0x7,
+    PARTIAL_SCAN_RESPONSE = 0x8;
 
 var Settings = function(device) {
     this.device = device;

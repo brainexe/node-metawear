@@ -1,13 +1,14 @@
 
 const MODULE_OPCODE = 0x09;
 
-const ADD           = 0x2;
-const NOTIFY        = 0x3;
-const STATE         = 0x4;
-const PARAMETER     = 0x5;
-const REMOVE        = 0x6;
-const NOTIFY_ENABLE = 0x7;
-const REMOVE_ALL    = 0x8;
+const
+    ADD           = 0x2,
+    NOTIFY        = 0x3,
+    STATE         = 0x4,
+    PARAMETER     = 0x5,
+    REMOVE        = 0x6,
+    NOTIFY_ENABLE = 0x7,
+    REMOVE_ALL    = 0x8;
 
 var DataProcessing = function(device) {
     this.device = device;
@@ -17,7 +18,7 @@ DataProcessing.prototype.enableNotification = function() {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = NOTIFY;
-    buffer[2] = 1;
+    buffer[2] = 0x1;
 
     this.device.send(buffer);
 
@@ -27,7 +28,7 @@ DataProcessing.prototype.enableNotification = function() {
     buffer[0] = MODULE_OPCODE;
     buffer[1] = NOTIFY_ENABLE;
     buffer[2] = headerId;
-    buffer[3] = 1;
+    buffer[3] = 0x1;
     this.device.send(buffer);
 };
 
