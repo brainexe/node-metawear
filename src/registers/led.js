@@ -18,7 +18,6 @@ var Led = function(device) {
  */
 Led.prototype.play = function(autoplay) {
     var buffer = new Buffer(3);
-    buffer.fill(0);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = PLAY;
     buffer[2] = autoplay ? 2 : 1;
@@ -28,17 +27,15 @@ Led.prototype.play = function(autoplay) {
 
 Led.prototype.pause = function() {
     var buffer = new Buffer(3);
-    buffer.fill(0);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = PLAY;
-    buffer[2] = 0;
+    buffer[2] = 0x0;
 
     this.device.send(buffer);
 };
 
 Led.prototype.stop = function(resetChannelAttrs) {
     var buffer = new Buffer(3);
-    buffer.fill(0);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = STOP;
     buffer[2] = resetChannelAttrs;

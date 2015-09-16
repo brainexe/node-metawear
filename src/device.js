@@ -7,7 +7,7 @@ var
 const BASE_URI = '326a#id#85cb9195d9dd464cfbbae75a',
     SERVICE_UUID = BASE_URI.replace('#id#', '9000');
     COMMAND_UUID = BASE_URI.replace('#id#', '9001');
-    NOTIFY_UUID = BASE_URI.replace('#id#', '9006');
+    NOTIFY_UUID  = BASE_URI.replace('#id#', '9006');
 
 var Device = function(peripheral) {
     debug('start');

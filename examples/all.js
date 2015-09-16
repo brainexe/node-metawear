@@ -9,17 +9,6 @@ devices.discover(function(device) {
     device.onSetup(function(error) {
         console.log('were connected!');
 
-        // read generic device information
-        device.readFirmwareRevision(function(error, version){
-            console.log('Firmware: ', version);
-        });
-        device.readHardwareRevision(function(error, revision){
-            console.log('Hardware revision: ', revision);
-        });
-        device.readBatteryLevel(function(error, batteryLevel) {
-            console.log("Battery:", batteryLevel);
-        });
-
         // load some registers
         var log         = new device.Log(device);
         var gpio        = new device.Gpio(device);
@@ -31,6 +20,17 @@ devices.discover(function(device) {
         var ambientLight = new device.AmbiantLight(device);
         var haptic      = new device.Haptic(device);
         var barometer   = new device.Barometer(device);
+
+        // read generic device information
+        device.readFirmwareRevision(function(error, version){
+            console.log('Firmware: ', version);
+        });
+        device.readHardwareRevision(function(error, revision){
+            console.log('Hardware revision: ', revision);
+        });
+        device.readBatteryLevel(function(error, batteryLevel) {
+            console.log("Battery:", batteryLevel);
+        });
 
         // blink LED 20 times in blue
         var mode = new led.ColorChannelEditor();
@@ -73,9 +73,13 @@ devices.discover(function(device) {
             console.log("device name: " + deviceName);
         });
 
-        ambientLight.enable();
+        ambientLight.enable(function(light) {
+            console.log("light: " + light);
+        });
 
-        barometer.enable();
+        barometer.enable(function(pressure) {
+            console.log("Pressure: " + pressure);
+        });
 
         haptic.startBuzzer(5000);
         haptic.startMotor(5000, 100);

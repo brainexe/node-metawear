@@ -10,7 +10,7 @@ var AmbientLight = function(device) {
     this.device = device;
 };
 
-AmbientLight.prototype.enable = function() {
+AmbientLight.prototype.enable = function(callback) {
     // todo config interface
     var ltr329Rate = 4;
     var ltr329Time = 1;
@@ -29,6 +29,9 @@ AmbientLight.prototype.enable = function() {
     buffer[2] = 0x1;
     this.device.send(buffer);
 
+    this.emitter.on([MODULE_OPCODE, OUTPUT], function(buffer) {
+        callback(buffer.readInt8(0));
+    });
 };
 
 module.exports = AmbientLight;
