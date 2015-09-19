@@ -1,7 +1,7 @@
 
 var ColorChannelEditor = require('../util/ColorChannelEditor');
 
-const MODULE_OPCODE = 0x2;
+const MODULE_OPCODE = 0x02;
 
 const
     PLAY = 0x1,

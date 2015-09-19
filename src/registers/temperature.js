@@ -1,21 +1,30 @@
 
-const MODULE_OPCODE = 0x4;
+const MODULE_OPCODE = 0x04;
 
 const
     VALUE = 0x1,
+    MODE = 0x2,
     THERMISTOR = 0x5;
 
 var Temperature = function(device) {
+    this.NRF_DIE = 0;
+    this.ON_BOARD_THERMISTOR = 1;
+    this.EXT_THERMISTOR = 2; // todo in case of non-pro edition: EXT_THERMISTOR = 1
+    this.BMP_280 = 3;
+
     this.device = device;
 };
 
 /**
  * @param {Function} callback
  */
-Temperature.prototype.getValue = function(callback) {
-    var buffer = new Buffer(2);
+Temperature.prototype.getValue = function(channel, callback) {
+    // todo validate channel
+
+    var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = VALUE;
+    buffer[2] = channel;
 
     this.device.emitter.once([MODULE_OPCODE, VALUE], function(buffer) {
         var temp = buffer.readInt16BE(0) / 8;

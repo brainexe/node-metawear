@@ -12,6 +12,33 @@ const
 
 var Timer = function(device) {
     this.device = device;
+    this.id = 0;
+};
+
+Timer.prototype.start = function() {
+    var id = ++this.id;
+
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = START;
+    buffer[2] = id;
+    this.device.send(buffer);
+};
+
+Timer.prototype.start = function(id) {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = START;
+    buffer[2] = id;
+    this.device.send(buffer);
+};
+
+Timer.prototype.remove = function(id) {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = REMOVE;
+    buffer[2] = id;
+    this.device.send(buffer);
 };
 
 module.exports = Timer;

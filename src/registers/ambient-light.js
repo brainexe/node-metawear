@@ -25,7 +25,7 @@ AmbientLight.prototype.enable = function(callback) {
     this.device.send(buffer);
 
     this.device.emitter.on([MODULE_OPCODE, OUTPUT], function(buffer) {
-        var lux = buffer.readUInt16BE(0) / 1000;
+        var lux = buffer.readUInt16LE(0) / 1000;
 
         if (lux != this.lastValue) {
             callback(lux);

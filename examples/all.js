@@ -14,7 +14,7 @@ devices.discover(function(device) {
         var gpio            = new device.Gpio(device);
         var led             = new device.Led(device);
         var settings        = new device.Settings(device);
-        var switchRegister         = new device.Switch(device);
+        var switchRegister  = new device.Switch(device);
         var temperature     = new device.Temperature(device);
         var dataProcessing  = new device.DataProcessing(device);
         var ambientLight    = new device.AmbiantLight(device);
@@ -64,7 +64,7 @@ devices.discover(function(device) {
         });
 
         setInterval(function() {
-            temperature.getValue(function(temp) {
+            temperature.getValue(temperature.ON_BOARD_THERMISTOR, function(temp) {
                 console.log('Temperature: ', temp);
             });
         }, 5000);
@@ -77,7 +77,7 @@ devices.discover(function(device) {
             console.log("Light: " + light + ' lux');
         });
 
-        barometer.enable(function(pressure) {
+        barometer.enablePressure(function(pressure) {
             console.log("Pressure: " + pressure);
         });
 

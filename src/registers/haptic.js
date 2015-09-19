@@ -1,5 +1,5 @@
 
-const MODULE_OPCODE = 0x8;
+const MODULE_OPCODE = 0x08;
 
 const PULSE = 0x1;
 
@@ -15,8 +15,7 @@ Haptic.prototype.startBuzzer = function(duration) {
     buffer.writeInt16LE(duration, 3);
     buffer[5] = 0x1;
 
-    console.log(buffer);
-    //this.device.send(buffer);
+    this.device.send(buffer);
 };
 
 Haptic.prototype.startMotor = function(duration, strength) {
@@ -31,8 +30,7 @@ Haptic.prototype.startMotor = function(duration, strength) {
     buffer.writeInt16LE(strength, 3);
     buffer[5] = 0x0;
 
-    console.log(buffer);
-    //this.device.send(buffer);
+    this.device.send(buffer);
 };
 
 
