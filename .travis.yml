@@ -6,5 +6,5 @@ node_js:
   - 0.12
 
 before_script:
-  - npm install -g jasmine
+  - npm install -g mocha
   - npm test

@@ -10,16 +10,16 @@ devices.discover(function(device) {
         console.log('were connected!');
 
         // load some registers
-        var log         = new device.Log(device);
-        var gpio        = new device.Gpio(device);
-        var led         = new device.Led(device);
-        var settings    = new device.Settings(device);
-        var switchR     = new device.Switch(device);
-        var temperature = new device.Temperature(device);
-        var dataProcessing = new device.DataProcessing(device);
-        var ambientLight = new device.AmbiantLight(device);
-        var haptic      = new device.Haptic(device);
-        var barometer   = new device.Barometer(device);
+        var log             = new device.Log(device);
+        var gpio            = new device.Gpio(device);
+        var led             = new device.Led(device);
+        var settings        = new device.Settings(device);
+        var switchRegister         = new device.Switch(device);
+        var temperature     = new device.Temperature(device);
+        var dataProcessing  = new device.DataProcessing(device);
+        var ambientLight    = new device.AmbiantLight(device);
+        var haptic          = new device.Haptic(device);
+        var barometer       = new device.Barometer(device);
 
         // read generic device information
         device.readFirmwareRevision(function(error, version){
@@ -58,8 +58,8 @@ devices.discover(function(device) {
 
         dataProcessing.enableNotification();
 
-        switchR.register();
-        switchR.onChange(function(status) {
+        switchRegister.register();
+        switchRegister.onChange(function(status) {
             console.log("Switch status: ", status);
         });
 
@@ -70,19 +70,21 @@ devices.discover(function(device) {
         }, 5000);
 
         settings.getDeviceName(function(deviceName) {
-            console.log("device name: " + deviceName);
+            console.log("Device name: " + deviceName);
         });
 
         ambientLight.enable(function(light) {
-            console.log("light: " + light);
+            console.log("Light: " + light + ' lux');
         });
 
         barometer.enable(function(pressure) {
             console.log("Pressure: " + pressure);
         });
 
-        haptic.startBuzzer(5000);
-        haptic.startMotor(5000, 100);
+        setInterval(function() {
+            //haptic.startMotor(5000, 100);
+            haptic.startBuzzer(5000);
+        }, 10000)
 
         //settings.setDeviceName('brainexe');
     });

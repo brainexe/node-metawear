@@ -1,5 +1,5 @@
 
-const MODULE_OPCODE = 0x11;
+const MODULE_OPCODE = 0x14;
 
 const
     ENABLE = 0x1,
@@ -8,19 +8,14 @@ const
 
 var AmbientLight = function(device) {
     this.device = device;
+    this.lastValue = null;
 };
 
 AmbientLight.prototype.enable = function(callback) {
-    // todo config interface
-    var ltr329Rate = 4;
-    var ltr329Time = 1;
-    var ltr329Gain = 1;
-
-    var buffer = new Buffer(4);
+    var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
-    buffer[1] = CONFIG;
-    buffer[2] = ltr329Gain.mask << 2;
-    buffer[3] = (ltr329Time.mask << 3) | ltr329Rate;
+    buffer[1] = OUTPUT;
+    buffer[2] = 0x1;
     this.device.send(buffer);
 
     buffer = new Buffer(3);
@@ -29,9 +24,27 @@ AmbientLight.prototype.enable = function(callback) {
     buffer[2] = 0x1;
     this.device.send(buffer);
 
-    this.emitter.on([MODULE_OPCODE, OUTPUT], function(buffer) {
-        callback(buffer.readInt8(0));
-    });
+    this.device.emitter.on([MODULE_OPCODE, OUTPUT], function(buffer) {
+        var lux = buffer.readUInt16BE(0) / 1000;
+
+        if (lux != this.lastValue) {
+            callback(lux);
+            this.lastValue = lux;
+        }
+    }.bind(this));
+};
+
+AmbientLight.prototype.config = function(rate, time, gain) {
+    //var ltr329Rate = 4;
+    //var ltr329Time = 1;
+    //var ltr329Gain = 1;
+
+    var buffer = new Buffer(4);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = CONFIG;
+    buffer[2] = gain.mask << 2;
+    buffer[3] = (time.mask << 3) | rate;
+    this.device.send(buffer);
 };
 
 module.exports = AmbientLight;

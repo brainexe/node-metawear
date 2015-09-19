@@ -27,9 +27,12 @@ The functionality is very limited at the moment:
  - Read/Set Device name
  - Read switch status (+ get pressed/release events)
  - Read out battery status
+ - Sensors:
+ - - Temperature
+ - - Ambient light
+ - - Barometer
 
 ## Next steps
- - Get current temperature
  - GPIO
  - Other sensors
  - Data processing
