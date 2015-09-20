@@ -11,9 +11,12 @@ devices.discover(function(device) {
 
         var gyro = new device.Gyro(device);
 
+        gyro.setRate(1600);
+        gyro.setRange(125);
+
         gyro.enable();
         gyro.onChange(function(x, y, z) {
-            console.log('x: ', x, 'y: ', y, 'z: ', z);
+            console.log("x:", x, "\t\ty:", y, "\t\tz:", z);
         });
     });
 });
