@@ -1,4 +1,6 @@
 
+var debug = require('debug')('log');
+
 const MODULE_OPCODE = 0x0b;
 
 const
@@ -83,13 +85,13 @@ Log.prototype.downloadLog = function() {
         var progress = 1;
         var entriesNotify = length * progress;
 
-        console.log(length, 'logs');
+        console.log(length + ' logs to download');
 
         buffer = new Buffer(6);
         buffer[0] = MODULE_OPCODE;
         buffer[1] = READOUT;
-        buffer[2] = lengthBuffer[2];
-        buffer[3] = lengthBuffer[3];
+        buffer[2] = lengthBuffer[0];
+        buffer[3] = lengthBuffer[1];
         buffer[4] = entriesNotify & 0xff;
         buffer[5] = (entriesNotify >> 8) & 0xff;
         self.device.send(buffer);

@@ -6,7 +6,12 @@ const
     MODE = 0x2,
     THERMISTOR = 0x5;
 
-var Temperature = function(device) {
+const SCALE = 8;
+
+var Temperature = function(device, channel) {
+    this.channel   = channel;
+    this.lastValue = null;
+
     this.NRF_DIE = 0;
     this.ON_BOARD_THERMISTOR = 1;
     this.EXT_THERMISTOR = 2; // todo in case of non-pro edition: EXT_THERMISTOR = 1
@@ -18,20 +23,41 @@ var Temperature = function(device) {
 /**
  * @param {Function} callback
  */
-Temperature.prototype.getValue = function(channel, callback) {
-    // todo validate channel
+Temperature.prototype.getValue = function(callback) {
+    this.device.emitter.once([MODULE_OPCODE, VALUE], function(buffer) {
+        var temp = buffer.readInt16BE(0) / SCALE;
+        callback(temp);
+    });
 
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = VALUE;
-    buffer[2] = channel;
+    buffer[2] = this.channel;
+    this.device.sendRead(buffer);
+};
 
-    this.device.emitter.once([MODULE_OPCODE, VALUE], function(buffer) {
-        var temp = buffer.readInt16BE(0) / 8;
-        callback(temp);
+Temperature.prototype.startInterval = function(interval, callback, allEvents) {
+    var self = this;
+
+    this.device.emitter.on([MODULE_OPCODE, VALUE], function(buffer) {
+        var temp = buffer.readInt16BE(0) / SCALE;
+        if (temp != self.lastValue || allEvents) {
+            self.lastValue = temp;
+            callback(temp);
+        }
     });
 
-    this.device.sendRead(buffer);
+    function sendRequest() {
+        var buffer = new Buffer(3);
+        buffer[0] = MODULE_OPCODE;
+        buffer[1] = VALUE;
+        buffer[2] = self.channel;
+        self.device.sendRead(buffer);
+    }
+
+    sendRequest();
+
+    return setInterval(sendRequest, interval);
 };
 
 Temperature.prototype.enableThermistorMode = function(analogReadPin, pulldownPin) {

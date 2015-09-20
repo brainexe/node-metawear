@@ -15,7 +15,7 @@ devices.discover(function(device) {
         var led             = new device.Led(device);
         var settings        = new device.Settings(device);
         var switchRegister  = new device.Switch(device);
-        var temperature     = new device.Temperature(device);
+        var temperature     = new device.Temperature(device, device.Temperature.NRF_DIE);
         var dataProcessing  = new device.DataProcessing(device);
         var ambientLight    = new device.AmbiantLight(device);
         var haptic          = new device.Haptic(device);
@@ -63,11 +63,9 @@ devices.discover(function(device) {
             console.log("Switch status: ", status);
         });
 
-        setInterval(function() {
-            temperature.getValue(temperature.ON_BOARD_THERMISTOR, function(temp) {
-                console.log('Temperature: ', temp);
-            });
-        }, 5000);
+        temperature.startInterval(2500, function(temp) {
+            console.log('Temperature: ', temp);
+        });
 
         settings.getDeviceName(function(deviceName) {
             console.log("Device name: " + deviceName);
@@ -84,7 +82,7 @@ devices.discover(function(device) {
         setInterval(function() {
             //haptic.startMotor(5000, 100);
             haptic.startBuzzer(5000);
-        }, 10000)
+        }, 10000);
 
         //settings.setDeviceName('brainexe');
     });
