@@ -15,7 +15,7 @@ devices.discover(function(device) {
         var led             = new device.Led(device);
         var settings        = new device.Settings(device);
         var switchRegister  = new device.Switch(device);
-        var temperature     = new device.Temperature(device, device.Temperature.NRF_DIE);
+        var temperature     = new device.Temperature(device, device.Temperature.NRF_DIE); // todo
         var dataProcessing  = new device.DataProcessing(device);
         var ambientLight    = new device.AmbiantLight(device);
         var haptic          = new device.Haptic(device);
@@ -33,8 +33,8 @@ devices.discover(function(device) {
         });
 
         // blink LED 20 times in blue
-        var mode = new led.ColorChannelEditor();
-        mode.setColor(mode.BLUE)
+        led.config
+            .setColor(led.config.BLUE)
             .setRiseTime(1000)
             .setHighTime(500)
             .setFallTime(1000)
@@ -43,7 +43,7 @@ devices.discover(function(device) {
             .setHighIntensity(16)
             .setLowIntensity(1);
 
-        led.setMode(mode);
+        led.commitConfig();
         led.play(true);
 
         // tbd
@@ -74,6 +74,9 @@ devices.discover(function(device) {
         ambientLight.enable(function(light) {
             console.log("Light: " + light + ' lux');
         });
+
+        barometer.config.standbyTime = barometer.config.STANDBY_TIME.TIME_2000;
+        barometer.commitConfig();
 
         barometer.enablePressure(function(pressure) {
             console.log("Pressure: " + pressure);

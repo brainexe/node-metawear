@@ -1,5 +1,5 @@
 
-var ColorChannelEditor = require('../util/ColorChannelEditor');
+var Config = require('./config/led');
 
 const MODULE_OPCODE = 0x02;
 
@@ -9,7 +9,7 @@ const
     MODE = 0x3;
 
 var Led = function(device) {
-    this.ColorChannelEditor = ColorChannelEditor;
+    this.config = new Config();
     this.device = device;
 };
 
@@ -43,12 +43,12 @@ Led.prototype.stop = function(resetChannelAttrs) {
     this.device.send(buffer);
 };
 
-Led.prototype.setMode = function(config) {
+Led.prototype.commitConfig = function() {
     var buffer = new Buffer(2);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = MODE;
 
-    this.device.send(Buffer.concat([buffer, config.getBuffer()]));
+    this.device.send(Buffer.concat([buffer, this.config.getBuffer()]));
 };
 
 module.exports = Led;

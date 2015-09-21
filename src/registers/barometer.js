@@ -1,4 +1,6 @@
 
+var Config = require('./config/barometer');
+
 const MODULE_OPCODE = 0x12;
 
 const
@@ -10,8 +12,9 @@ const
 const SCALE = 25600;
 
 var Barometer = function(device) {
-    this.device = device;
-    this.lastValue = null;
+    this.device     = device;
+    this.config     = new Config();
+    this.lastValue  = null;
 };
 
 Barometer.prototype.enablePressure = function(callback) {
@@ -39,16 +42,13 @@ Barometer.prototype.enablePressure = function(callback) {
     this.device.send(buffer);
 };
 
-Barometer.prototype.config = function() {
-    // todo port see Bmp280Barometer.java
-    var first = samplingMode.ordinal() << 2;
-    var second = (filterMode.ordinal() << 2) | (time.ordinal() << 5);
-
+Barometer.prototype.commitConfig = function() {
     var buffer = new Buffer(4);
     buffer[0]  = MODULE_OPCODE;
-    buffer[1]  = PRESSURE;
-    buffer[2]  = first;
-    buffer[3]  = second;
+    buffer[1]  = CONFIG;
+    buffer[2]  = this.config.oversamplingMode << 2;
+    buffer[3]  = (this.config.filterMode << 2) | (this.config.standbyTime << 5);
+    console.log(buffer);
     this.device.send(buffer)
 };
 

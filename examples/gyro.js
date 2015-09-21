@@ -11,8 +11,9 @@ devices.discover(function(device) {
 
         var gyro = new device.Gyro(device);
 
-        gyro.setRate(1600);
-        gyro.setRange(125);
+        gyro.config.setRate(1600);
+        gyro.config.setRange(125);
+        gyro.commitConfig();
 
         gyro.enable();
         gyro.onChange(function(x, y, z) {
