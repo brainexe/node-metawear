@@ -83,6 +83,7 @@ Device.prototype.Gpio           = require('./registers/gpio');
 Device.prototype.Gyro           = require('./registers/gyro');
 Device.prototype.Haptic         = require('./registers/haptic');
 Device.prototype.I2C            = require('./registers/i2c');
+Device.prototype.IBeacon        = require('./registers/ibeacon');
 Device.prototype.Led            = require('./registers/led');
 Device.prototype.Log            = require('./registers/log');
 Device.prototype.NeoPixel       = require('./registers/neo-pixel');

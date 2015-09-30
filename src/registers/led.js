@@ -14,13 +14,13 @@ var Led = function(device) {
 };
 
 /**
- * @param {Boolean} autoplay
+ * @param {Boolean} autoPlay
  */
-Led.prototype.play = function(autoplay) {
+Led.prototype.play = function(autoPlay) {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = PLAY;
-    buffer[2] = autoplay ? 2 : 1;
+    buffer[2] = autoPlay ? 2 : 1;
 
     this.device.send(buffer);
 };
@@ -34,11 +34,11 @@ Led.prototype.pause = function() {
     this.device.send(buffer);
 };
 
-Led.prototype.stop = function(resetChannelAttrs) {
+Led.prototype.stop = function(clearConfig) {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = STOP;
-    buffer[2] = resetChannelAttrs;
+    buffer[2] = clearConfig;
 
     this.device.send(buffer);
 };

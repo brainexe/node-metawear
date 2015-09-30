@@ -1,5 +1,5 @@
 
-// just a list of all avaiable register (InfoRegister.java)
+// just a list of all available register (InfoRegister.java)
 
 var registers = module.exports.byId = {
     0x01: 'MECHANICAL_SWITCH',

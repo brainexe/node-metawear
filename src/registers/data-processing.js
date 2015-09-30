@@ -10,6 +10,28 @@ const
     NOTIFY_ENABLE = 0x7,
     REMOVE_ALL    = 0x8;
 
+var COMPARISON = {
+    EQ  : 0,
+    NEQ : 1,
+    LT  : 2,
+    LTE : 3,
+    GT  : 4,
+    GTE : 5
+};
+
+var ARITHMETIC = {
+    ADD         : 1,
+    MULTIPLY    : 2,
+    DIVIDE      : 3,
+    MODULUS     : 4,
+    EXPONENT    : 5,
+    SQRT        : 6,
+    L_SHIFT     : 7,
+    R_SHIFT     : 8,
+    SUBTRACT    : 9,
+    ABS_VALUE   : 10
+};
+
 var DataProcessing = function(device) {
     this.device = device;
 };

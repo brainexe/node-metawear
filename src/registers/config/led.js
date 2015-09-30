@@ -4,6 +4,8 @@ var LedConfig = function() {
     this.RED   = 0x1;
     this.BLUE  = 0x2;
 
+    this.REPEAT_INDEFINITELY = 0xff;
+
     this.buffer = new Buffer(15);
     this.buffer.fill(0);
 
@@ -57,6 +59,33 @@ LedConfig.prototype.setRepeatCount = function(count) {
 
 LedConfig.prototype.getBuffer = function() {
     return this.buffer;
+};
+
+LedConfig.prototype.patternBlink = function() {
+    this.setHighIntensity(31);
+    this.setLowIntensity(0);
+    this.setRiseTime(0);
+    this.setHighTime(50);
+    this.setFallTime(0);
+    this.setPulseDuration(500);
+};
+
+LedConfig.prototype.patternPulse = function() {
+    this.setHighIntensity(31);
+    this.setLowIntensity(31);
+    this.setRiseTime(725);
+    this.setHighTime(500);
+    this.setFallTime(725);
+    this.setPulseDuration(2000);
+};
+
+LedConfig.prototype.patternSolid = function() {
+    this.setHighIntensity(31);
+    this.setLowIntensity(31);
+    this.setRiseTime(0);
+    this.setHighTime(500);
+    this.setFallTime(0);
+    this.setPulseDuration(1000);
 };
 
 module.exports = LedConfig;

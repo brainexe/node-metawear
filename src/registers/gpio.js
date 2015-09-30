@@ -18,7 +18,6 @@ var Gpio = function(device) {
     this.device = device;
 };
 
-
 Gpio.prototype.startPinChangeDetection = function(pin) {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;

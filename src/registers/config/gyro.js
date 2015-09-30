@@ -14,7 +14,7 @@ function GyroConfig () {
     };
 
     this.RANGE_MAP = {
-        2000: [0, 16.4],
+        2000: [0, 16.4], // +/-2000 degrees per second
         1000: [1, 32.8],
         500:  [2, 65.6],
         250:  [3, 131.2],
@@ -22,7 +22,7 @@ function GyroConfig () {
     };
 
     this.scale = 0.01;
-    this.setRate(100);
+    this.setRange(125);
     this.setRate(25);
 }
 
