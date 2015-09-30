@@ -86,6 +86,7 @@ Device.prototype.I2C            = require('./registers/i2c');
 Device.prototype.IBeacon        = require('./registers/ibeacon');
 Device.prototype.Led            = require('./registers/led');
 Device.prototype.Log            = require('./registers/log');
+Device.prototype.Macro          = require('./registers/macro');
 Device.prototype.NeoPixel       = require('./registers/neo-pixel');
 Device.prototype.Settings       = require('./registers/settings');
 Device.prototype.Switch         = require('./registers/switch');

@@ -9,7 +9,7 @@ const
     CONFIG   = 0x3,
     CYCLIC   = 0x4;
 
-const SCALE = 25600;
+const SCALE = 25600; // TODO 256?
 
 var Barometer = function(device) {
     this.device     = device;
@@ -53,10 +53,11 @@ Barometer.prototype.commitConfig = function() {
 };
 
 Barometer.prototype.disable = function() {
-    var buffer = new Buffer(3);
+    var buffer = new Buffer(4);
     buffer[0]  = MODULE_OPCODE;
-    buffer[1]  = PRESSURE;
+    buffer[1]  = CYCLIC;
     buffer[2]  = 0x0;
+    buffer[3]  = 0x0;
     this.device.send(buffer);
 };
 

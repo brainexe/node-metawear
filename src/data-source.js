@@ -41,22 +41,12 @@ var DataSource = function(module_id, register_id, data_id, data_type_id, is_sign
     this.offset         = offset;
 };
 
-var DataSources = {
-    new DataSource(registers.byName('SWITCH'),       DataSourceId.SWITCH_DATA, NO_DATA_ID, DT_ID_UINT, 0, 1, 0},
-    new DataSource(registers.byName('ACC_MMA8452Q'), DataSourceId.ACC_MMA8452Q_DATA, NO_DATA_ID, DT_ID_MMA8452Q_THREE_AXIS, 1, 6, 0},
-    new DataSource(registers.byName('ACC_BMI160'),   DataSourceId.ACC_BMI160_DATA, NO_DATA_ID, DT_ID_BMI160_THREE_AXIS, 1, 6, 0},
-    new DataSource(registers.byName('BAROMETER'),    DataSourceId.BARO_BMP280_PRESSURE_DATA, NO_DATA_ID, DT_ID_BMP280_PRESSURE, 0, 4, 0},
-    new DataSource(registers.byName('BAROMETER'),    DataSourceId.BARO_BMP280_ALTITUDE_DATA, NO_DATA_ID, DT_ID_BMP280_ALTITUDE, 1, 4, 0},
-    new DataSource(registers.byName('GYRO'),         DataSourceId.GYRO_BMI160_DATA, NO_DATA_ID, DT_ID_BMI160_THREE_AXIS, 1, 6, 0},
-    new DataSource(registers.byName('ALS_LTR329'),   DataSourceId.ALS_LTR329_DATA, NO_DATA_ID, DT_ID_UINT, 0, 4, 0}
-};
-
-static const DataSource data_sources[]= {
-{MBL_MW_SWITCH_MODULE, MBL_MW_SWITCH_DATA, NO_DATA_ID, DT_ID_UINT, 0, 1, 0},
-{MBL_MW_ACC_MMA8452Q_MODULE, MBL_MW_ACC_MMA8452Q_DATA, NO_DATA_ID, DT_ID_MMA8452Q_THREE_AXIS, 1, 6, 0},
-{MBL_MW_ACC_BMI160_MODULE, MBL_MW_ACC_BMI160_DATA, NO_DATA_ID, DT_ID_BMI160_THREE_AXIS, 1, 6, 0},
-{MBL_MW_BARO_BMP280_MODULE, MBL_MW_BARO_BMP280_PRESSURE_DATA, NO_DATA_ID, DT_ID_BMP280_PRESSURE, 0, 4, 0},
-{MBL_MW_BARO_BMP280_MODULE, MBL_MW_BARO_BMP280_ALTITUDE_DATA, NO_DATA_ID, DT_ID_BMP280_ALTITUDE, 1, 4, 0},
-{MBL_MW_GYRO_BMI160_MODULE, MBL_MW_GYRO_BMI160_DATA, NO_DATA_ID, DT_ID_BMI160_THREE_AXIS, 1, 6, 0},
-{MBL_MW_ALS_LTR329_MODULE, MBL_MW_ALS_LTR329_DATA, NO_DATA_ID, DT_ID_UINT, 0, 4, 0}
-};
+var dataSources = [
+    new DataSource(registers.SWITCH,       DataSourceId.SWITCH_DATA,               NO_DATA_ID, DataType.UINT,                 0, 1, 0),
+    new DataSource(registers.ACC_MMA8452Q, DataSourceId.ACC_MMA8452Q_DATA,         NO_DATA_ID, DataType.MMA8452Q_THREE_AXIS,  1, 6, 0),
+    new DataSource(registers.ACC_BMI160,   DataSourceId.ACC_BMI160_DATA,           NO_DATA_ID, DataType.BMI160_THREE_AXIS,    1, 6, 0),
+    new DataSource(registers.BAROMETER,    DataSourceId.BARO_BMP280_PRESSURE_DATA, NO_DATA_ID, DataType.BMP280_PRESSURE,      0, 4, 0),
+    new DataSource(registers.BAROMETER,    DataSourceId.BARO_BMP280_ALTITUDE_DATA, NO_DATA_ID, DataType.BMP280_ALTITUDE,      1, 4, 0),
+    new DataSource(registers.GYRO,         DataSourceId.GYRO_BMI160_DATA,          NO_DATA_ID, DataType.BMI160_THREE_AXIS,    1, 6, 0),
+    new DataSource(registers.ALS_LTR329,   DataSourceId.ALS_LTR329_DATA,           NO_DATA_ID, DataType.UINT,                 0, 4, 0)
+];

@@ -20,20 +20,24 @@ var COMPARISON = {
 };
 
 var ARITHMETIC = {
-    ADD         : 1,
-    MULTIPLY    : 2,
-    DIVIDE      : 3,
-    MODULUS     : 4,
-    EXPONENT    : 5,
-    SQRT        : 6,
-    L_SHIFT     : 7,
-    R_SHIFT     : 8,
-    SUBTRACT    : 9,
-    ABS_VALUE   : 10
+    ADD       : 1,
+    MULTIPLY  : 2,
+    DIVIDE    : 3,
+    MODULUS   : 4,
+    EXPONENT  : 5,
+    SQRT      : 6,
+    L_SHIFT   : 7,
+    R_SHIFT   : 8,
+    SUBTRACT  : 9,
+    ABS_VALUE : 10
 };
 
 var DataProcessing = function(device) {
     this.device = device;
+
+    this.emitter.on([MODULE_OPCODE, NOTIFY], function(buffer) {
+        // todo
+    });
 };
 
 DataProcessing.prototype.enableNotification = function() {
