@@ -14,7 +14,8 @@ var Device = function(peripheral) {
     NobleDevice.call(this, peripheral);
 
     this.emitter = new EventEmitter({
-        wildcard: true
+        wildcard: true,
+        maxListeners: 30
     });
 
     var self = this;
