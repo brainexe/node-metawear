@@ -1,6 +1,6 @@
 {
   "name": "node-metawear",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "API for metawear",
   "dependencies": {
     "debug": "~2.2",

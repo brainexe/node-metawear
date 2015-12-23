@@ -25,7 +25,7 @@ var Temperature = function(device, channel) {
  */
 Temperature.prototype.getValue = function(callback) {
     this.device.emitter.once([MODULE_OPCODE, VALUE], function(buffer) {
-        var temp = buffer.readInt16BE(0) / SCALE;
+        var temp = buffer.readInt16LE(1) / SCALE;
         callback(temp);
     });
 
