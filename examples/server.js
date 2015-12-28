@@ -2,14 +2,17 @@
  * This example scripts starts an simple HTTP server on port 8082.
  * Implemented routes:
  *  GET http://localhost:8082/temperature/
+ *  GET http://localhost:8082/pressure/
+ *  GET http://localhost:8082/brightness/
  */
+
 var http    = require('http');
 var devices = require('./../src/device');
 var port    = 8082;
 
 var currentDevice = null;
 devices.discover(function(device) {
-    console.log('discovered device ', device.address);
+    console.log('discovered device', device.address);
     device.on('disconnect', function () {
         console.log('we got disconnected! :( ');
     });
@@ -22,36 +25,52 @@ devices.discover(function(device) {
 console.log('start server on port ' + port + '...');
 
 http.createServer(function(request, response){
-    if (!currentDevice) {
-        response.writeHeader(503, {"Content-Type": "text/plain"});
-        response.write("metawear not ready");
+    function writeResponse(code, body) {
+        response.writeHeader(code, {"Content-Type": "text/plain"});
+        response.write(body);
         response.end();
+    }
+
+    console.log('HTTP request - ' + request.url);
+
+    if (!currentDevice) {
+        writeResponse(503, "metawear not ready yet");
         console.error('Device not ready..');
         return;
     }
+
     switch (request.url) {
         case '/':
         case '/info/':
-            response.writeHeader(200, {"Content-Type": "text/plain"});
-            response.write("OK");
-            response.end();
+            writeResponse(200, 'OK');
             break;
         case '/temperature/':
             var temperature = new currentDevice.Temperature(
                 currentDevice,
-                currentDevice.Temperature.NRF_DIE
+                currentDevice.Temperature.ON_BOARD_THERMISTOR
             );
 
             temperature.getValue(function(value) {
-                response.writeHeader(200, {"Content-Type": "text/plain"});
-                response.write("" + value);
-                response.end();
+                writeResponse(200, "" + value);
+            });
+            break;
+        case '/pressure/':
+            var barometer = new currentDevice.Barometer(currentDevice);
+
+            barometer.enablePressure(function(value) {
+                writeResponse(200, "" + value);
+                barometer.disable();
+            });
+            break;
+        case '/brightness/':
+            var light = new currentDevice.AmbiantLight(currentDevice);
+
+            light.enable(function(value) {
+                writeResponse(200, "" + value);
+                light.disable();
             });
             break;
         default:
-            response.writeHeader(404, {"Content-Type": "text/plain"});
-            response.write("Route not found");
-            response.end();
+            writeResponse(404, "Route not found");
     }
-    console.log('HTTP request - ' + request.url);
 }).listen(port);

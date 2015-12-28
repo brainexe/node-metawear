@@ -47,4 +47,12 @@ AmbientLight.prototype.config = function(rate, time, gain) {
     this.device.send(buffer);
 };
 
+AmbientLight.prototype.disable = function() {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = ENABLE;
+    buffer[2] = 0x0;
+    this.device.send(buffer);
+};
+
 module.exports = AmbientLight;

@@ -40,7 +40,7 @@ Temperature.prototype.startInterval = function(interval, callback, allEvents) {
     var self = this;
 
     this.device.emitter.on([MODULE_OPCODE, VALUE], function(buffer) {
-        var temp = buffer.readInt16BE(0) / SCALE;
+        var temp = buffer.readInt16LE(1) / SCALE;
         if (temp != self.lastValue || allEvents) {
             self.lastValue = temp;
             callback(temp);
