@@ -60,33 +60,22 @@ const ACC_RANGE = {
 
 var Accelerometer = function(device) {
     this.device   = device;
-    this.dataRate = 0x20 | util.findClosestValue(OUTPUT_DATA_RATE, 100);
+    this.dataRate = util.findClosestValue(OUTPUT_DATA_RATE, 100);
     this.accRange = util.findClosestValue(ACC_RANGE, 2);
 };
 
 Accelerometer.prototype.start = function() {
-    /*
-    // TODO
-    if (highHysteresis != null) {
-        bmi160LowHighConfig[2]|= ((int) (highHysteresis / HIGH_HYSTERESIS_STEPS[bmi160AccRange.ordinal()]) & 0x3) << 6;
-    }
-
-    if (highThreshold != null) {
-        bmi160LowHighConfig[4]= (byte) (highThreshold / HIGH_THRESHOLD_STEPS[bmi160AccRange.ordinal()]);
-    }
-    */
-
     var buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = TAP_CONFIG;
-    buffer[2] = 0x04;
+    buffer[2] = 0x04; // TODO configurable values
     buffer[3] = 0x0a;
     this.device.send(buffer);
 
     buffer = new Buffer(6);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = MOTION_CONFIG;
-    buffer[2] = 0x00;
+    buffer[2] = 0x00; // TODO configurable values
     buffer[3] = 0x14;
     buffer[4] = 0x14;
     buffer[5] = 0x14;
@@ -95,14 +84,14 @@ Accelerometer.prototype.start = function() {
     buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = DATA_CONFIG;
-    buffer[2] = 0x20 | 0x07; // TODO set correct value
+    buffer[2] = 0x20 | 0x07; // TODO configurable values
     buffer[3] = 0x03;
     this.device.send(buffer);
 
     buffer = new Buffer(7);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = LOW_HIGH_G_CONFIG;
-    buffer[2] = 0x07;
+    buffer[2] = 0x07; // TODO configurable values
     buffer[3] = 0x30;
     buffer[4] = 0x81;
     buffer[5] = 0x0b;
@@ -119,6 +108,7 @@ Accelerometer.prototype.start = function() {
 Accelerometer.prototype.onChange = function(callback) {
     this.device.emitter.on([MODULE_OPCODE, DATA_INTERRUPT], function(buffer) {
         var formatted = {
+            // todo implement scaling
             x: buffer.readInt16LE(X_OFFSET),
             y: buffer.readInt16LE(Y_OFFSET),
             z: buffer.readInt16LE(Z_OFFSET)
@@ -136,8 +126,8 @@ Accelerometer.prototype.setConfig = function() {
     this.device.send(buffer);
 };
 
-// todo see Bmi160AccelerometerImpl.java
 Accelerometer.prototype.setAxisSamplingRange = function(rate) {
+    this.accRange = util.findClosestValue(ACC_RANGE, rate);
 };
 
 Accelerometer.prototype.setOutputDataRate = function(frequency) {
