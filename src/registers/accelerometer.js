@@ -38,19 +38,24 @@ const BOARD_ORIENTATION = {
     FACE_DOWN_LANDSCAPE_RIGHT:      0x7
 };
 
-// data rate in HZ
+// Operating frequency of the accelerometer. Unit: "hz"
 const OUTPUT_DATA_RATE = {
-    25:     0x6,
-    50:     0x7,
-    100:    0x8,
-    200:    0xa,
-    400:    0xb,
-    800:    0xc,
-    1600:   0xd,
-    3200:   0xe
+    "0.78125": 0x1,
+    "1.5625":  0x2,
+    "3.125":   0x3,
+    "6.25":    0x4,
+    "12.5":    0x5,
+    "25.0":      0x6,
+    "50.0":      0x7,
+    "100.0":     0x8,
+    "200.0":     0xa,
+    "400.0":     0xb,
+    "800.0":     0xc,
+    "1600.0":    0xd,
+    "3200.0":    0xe
 };
 
-// unit "g"
+// Supported g-ranges for the accelerometer. Unit "g"
 const ACC_RANGE = {
     2:  0x3,
     4:  0x5,
@@ -60,7 +65,7 @@ const ACC_RANGE = {
 
 var Accelerometer = function(device) {
     this.device   = device;
-    this.dataRate = util.findClosestValue(OUTPUT_DATA_RATE, 100);
+    this.dataRate = util.findClosestValue(OUTPUT_DATA_RATE, 50);
     this.accRange = util.findClosestValue(ACC_RANGE, 2);
 };
 
@@ -84,8 +89,8 @@ Accelerometer.prototype.start = function() {
     buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = DATA_CONFIG;
-    buffer[2] = 0x20 | 0x07; // TODO configurable values
-    buffer[3] = 0x03;
+    buffer[2] = 0x20 | this.dataRate;
+    buffer[3] = this.accRange;
     this.device.send(buffer);
 
     buffer = new Buffer(7);
@@ -126,10 +131,18 @@ Accelerometer.prototype.setConfig = function() {
     this.device.send(buffer);
 };
 
+/**
+ * Set the sampling range. between 2g and 16g
+ * @param {Number} rate
+ */
 Accelerometer.prototype.setAxisSamplingRange = function(rate) {
     this.accRange = util.findClosestValue(ACC_RANGE, rate);
 };
 
+/**
+ * Set output data rate in HZ
+ * @param {Number} frequency
+ */
 Accelerometer.prototype.setOutputDataRate = function(frequency) {
     this.dataRate = util.findClosestValue(OUTPUT_DATA_RATE, frequency);
 };

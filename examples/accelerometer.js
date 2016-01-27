@@ -14,7 +14,8 @@ devices.discover(function(device) {
         var accelerometer   = new device.Accelerometer(device);
         var logger          = new device.Log(device);
 
-        accelerometer.setOutputDataRate(50);
+        accelerometer.setOutputDataRate(25);
+        accelerometer.setAxisSamplingRange(2);
         logger.startLogging(false);
 
         accelerometer.setConfig();
