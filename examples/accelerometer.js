@@ -1,5 +1,5 @@
 
-var devices  = require('./../src/device');
+var devices = require('./../src/device');
 
 devices.discover(function(device) {
     console.log('discovered device ', device.address);
@@ -11,15 +11,18 @@ devices.discover(function(device) {
     device.onSetup(function(error) {
         console.log('were connected!');
 
-        var accelerometer = new device.Accelerometer(device);
+        var accelerometer   = new device.Accelerometer(device);
+        var logger          = new device.Log(device);
 
-        accelerometer.setOutputDataRate(50.0);
-        accelerometer.setConfig(50.0);
-        accelerometer.start();
+        logger.startLogging(false);
+
+        accelerometer.setOutputDataRate(50);
+        accelerometer.setConfig();
         accelerometer.enableAxisSampling();
+        accelerometer.start();
 
-        //accelerometer.onChange(function(x, y, z) {
-        //    console.log("x:", x, "\t\ty:", y, "\t\tz:", z);
-        //});
+        accelerometer.onChange(function(data) {
+            console.log("x:", data.x, "\t\ty:", data.y, "\t\tz:", data.z);
+        });
     });
 });
