@@ -45,28 +45,29 @@ const OUTPUT_DATA_RATE = {
     "3.125":   0x3,
     "6.25":    0x4,
     "12.5":    0x5,
-    "25.0":      0x6,
-    "50.0":      0x7,
-    "100.0":     0x8,
-    "200.0":     0xa,
-    "400.0":     0xb,
-    "800.0":     0xc,
-    "1600.0":    0xd,
-    "3200.0":    0xe
+    "25.0":    0x6,
+    "50.0":    0x7,
+    "100.0":   0x8,
+    "200.0":   0xa,
+    "400.0":   0xb,
+    "800.0":   0xc,
+    "1600.0":  0xd,
+    "3200.0":  0xe
 };
 
 // Supported g-ranges for the accelerometer. Unit "g"
 const ACC_RANGE = {
-    2:  0x3,
-    4:  0x5,
-    8:  0x8,
-    16: 0xc
+    //g     bitmask, scale
+    2:      [0x3,    16384],
+    4:      [0x5,    8192],
+    8:      [0x8,    4096],
+    16:     [0xc,    2048]
 };
 
 var Accelerometer = function(device) {
     this.device   = device;
-    this.dataRate = util.findClosestValue(OUTPUT_DATA_RATE, 50);
-    this.accRange = util.findClosestValue(ACC_RANGE, 2);
+    this.dataRate = this.setOutputDataRate(50);
+    this.accRange = this.setAxisSamplingRange(2);
 };
 
 Accelerometer.prototype.start = function() {
@@ -90,7 +91,7 @@ Accelerometer.prototype.start = function() {
     buffer[0] = MODULE_OPCODE;
     buffer[1] = DATA_CONFIG;
     buffer[2] = 0x20 | this.dataRate;
-    buffer[3] = this.accRange;
+    buffer[3] = this.accRange[0];
     this.device.send(buffer);
 
     buffer = new Buffer(7);
@@ -111,12 +112,13 @@ Accelerometer.prototype.start = function() {
 };
 
 Accelerometer.prototype.onChange = function(callback) {
+    var scale = this.accRange[1];
+
     this.device.emitter.on([MODULE_OPCODE, DATA_INTERRUPT], function(buffer) {
         var formatted = {
-            // todo implement scaling
-            x: buffer.readInt16LE(X_OFFSET),
-            y: buffer.readInt16LE(Y_OFFSET),
-            z: buffer.readInt16LE(Z_OFFSET)
+            x: buffer.readInt16LE(X_OFFSET) / scale,
+            y: buffer.readInt16LE(Y_OFFSET) / scale,
+            z: buffer.readInt16LE(Z_OFFSET) / scale
         };
         callback(formatted);
     });
