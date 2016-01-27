@@ -20,7 +20,7 @@ Install required system packages
 ```
 sudo apt-get install bluetooth bluez-utils libbluetooth-dev
 ```
-This grants the node binary cap_net_raw privileges, so it can start/stop BLE advertising. Then you don't need the "sudo" prefix anymore
+This command grants the node binary cap_net_raw privileges, so it can start/stop BLE advertising. Then you don't need the "sudo" prefix anymore:
 ```
 sudo setcap cap_net_raw+eip $(eval readlink -f `which node`)
 ```

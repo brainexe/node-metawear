@@ -17,7 +17,7 @@ var Macro = function(device) {
     this.macroIds = [];
 
     var self = this;
-    this.emitter.on([MODULE_OPCODE, BEGIN], function(buffer) {
+    this.device.emitter.on([MODULE_OPCODE, BEGIN], function(buffer) {
         self.macroIds.push(buffer[2]);
     });
 };

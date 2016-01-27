@@ -10,7 +10,7 @@ var I2C = function(device) {
 };
 
 I2C.prototype.onData = function(callback) {
-    this.emitter.on([MODULE_OPCODE, READ_WRITE], function(buffer) {
+    this.device.emitter.on([MODULE_OPCODE, READ_WRITE], function(buffer) {
         // todo
         console.log(buffer);
     });

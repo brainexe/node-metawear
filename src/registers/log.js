@@ -48,7 +48,7 @@ Log.prototype.stopLogging = function() {
     this.device.send(buffer);
 };
 
-Log.prototype.downloadLog = function() {
+    Log.prototype.downloadLog = function() {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = READOUT_NOTIFY;

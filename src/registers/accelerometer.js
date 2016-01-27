@@ -16,6 +16,10 @@ const
     LOW_HIGH_G_INTERRUPT_ENABLE = 0x6;
     LOW_HIGH_G_CONFIG       = 0x7;
     LOW_HIGH_G_INTERRUPT    = 0x8;
+    MOTION_CONFIG           = 0xa;
+    MOTION_INTERRUPT        = 0xb;
+    TAP_INTERRUPT_ENABLE    = 0xc;
+    TAP_CONFIG              = 0xd;
     ORIENT_INTERRUPT_ENABLE = 0xf;
     ORIENT_CONFIG           = 0x10;
     ORIENT_INTERRUPT        = 0x11;
@@ -74,15 +78,31 @@ Accelerometer.prototype.start = function() {
 
     var buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;
+    buffer[1] = TAP_CONFIG;
+    buffer[2] = 0x04;
+    buffer[3] = 0x0a;
+    this.device.send(buffer);
+
+    buffer = new Buffer(6);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = MOTION_CONFIG;
+    buffer[2] = 0x00;
+    buffer[3] = 0x14;
+    buffer[4] = 0x14;
+    buffer[5] = 0x14;
+    this.device.send(buffer);
+
+    buffer = new Buffer(4);
+    buffer[0] = MODULE_OPCODE;
     buffer[1] = DATA_CONFIG;
-    buffer[2] = this.dataRate;
-    buffer[3] = this.accRange;
+    buffer[2] = 0x20 | 0x07; // TODO set correct value
+    buffer[3] = 0x03;
     this.device.send(buffer);
 
     buffer = new Buffer(7);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = LOW_HIGH_G_CONFIG;
-    buffer[2] = 0x7;
+    buffer[2] = 0x07;
     buffer[3] = 0x30;
     buffer[4] = 0x81;
     buffer[5] = 0x0b;
@@ -97,11 +117,11 @@ Accelerometer.prototype.start = function() {
 };
 
 Accelerometer.prototype.onChange = function(callback) {
-    this.device.on([MODULE_OPCODE, DATA_INTERRUPT], function(buffer) {
+    this.device.emitter.on([MODULE_OPCODE, DATA_INTERRUPT], function(buffer) {
         var formatted = {
-            x: buffer.readFloatLE(X_OFFSET),
-            y: buffer.readFloatLE(Y_OFFSET),
-            z: buffer.readFloatLE(Z_OFFSET)
+            x: buffer.readInt16LE(X_OFFSET),
+            y: buffer.readInt16LE(Y_OFFSET),
+            z: buffer.readInt16LE(Z_OFFSET)
         };
         callback(formatted);
     });
@@ -111,8 +131,8 @@ Accelerometer.prototype.setConfig = function() {
     var buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = DATA_CONFIG;
-    buffer[2] = 0x1; // TODO set correct value
-    buffer[3] = 0x1;
+    buffer[2] = 0x05; // TODO set correct value
+    buffer[3] = 0x06;
     this.device.send(buffer);
 };
 
@@ -128,6 +148,21 @@ Accelerometer.prototype.stop = function() {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = POWER_MODE;
+    buffer[2] = 0x0;
+    this.device.send(buffer);
+};
+
+Accelerometer.prototype.enableNotifications = function() {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = DATA_INTERRUPT;
+    buffer[2] = 0x1;
+    this.device.send(buffer);
+};
+Accelerometer.prototype.unsubscribe = function() {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = DATA_INTERRUPT;
     buffer[2] = 0x0;
     this.device.send(buffer);
 };

@@ -35,7 +35,7 @@ var ARITHMETIC = {
 var DataProcessing = function(device) {
     this.device = device;
 
-    this.device.on([MODULE_OPCODE, NOTIFY], function(buffer) {
+    this.device.emitter.on([MODULE_OPCODE, NOTIFY], function(buffer) {
         // todo
     });
 };
