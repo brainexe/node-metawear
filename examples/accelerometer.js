@@ -1,6 +1,9 @@
 
 var devices = require('./../src/device');
 
+var rate  = parseFloat(process.argv[2]) || 50;
+var range = parseFloat(process.argv[3]) || 2;
+
 devices.discover(function(device) {
     console.log('discovered device ', device.address);
 
@@ -10,12 +13,13 @@ devices.discover(function(device) {
 
     device.onSetup(function(error) {
         console.log('were connected!');
+        console.log('Start accelerometer with ' + rate + 'hz ang +-' + range + 'g');
 
-        var accelerometer   = new device.Accelerometer(device);
-        var logger          = new device.Log(device);
+        var accelerometer = new device.Accelerometer(device);
+        var logger        = new device.Log(device);
 
-        accelerometer.setOutputDataRate(25);
-        accelerometer.setAxisSamplingRange(2);
+        accelerometer.setOutputDataRate(rate);
+        accelerometer.setAxisSamplingRange(range);
         logger.startLogging(false);
 
         accelerometer.setConfig();

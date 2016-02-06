@@ -5,7 +5,7 @@ const MODULE_OPCODE = 0x03;
 
 const   X_OFFSET = 0,
         Y_OFFSET = 2,
-        Z_OFFSET= 4;
+        Z_OFFSET = 4;
 
 const
     POWER_MODE              = 0x1,
@@ -26,6 +26,11 @@ const
     FLAT_INTERRUPT_ENABLE   = 0x12;
     FLAT_CONFIG             = 0x13;
     FLAT_INTERRUPT          = 0x14;
+    STEP_DETECTOR_INTERRUPT_ENABLE = 0x17;
+    STEP_DETECTOR_CONFIG    = 0x18;
+    STEP_DETECTOR_INTERRUPT = 0x19;
+    STEP_COUNTER_DATA       = 0x1a;
+    STEP_COUNTER_RESET      = 0x1b;
 
 const BOARD_ORIENTATION = {
     FACE_UP_PORTRAIT_UPRIGHT:       0x0,

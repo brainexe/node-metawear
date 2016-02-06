@@ -76,7 +76,6 @@ Gyro.prototype.commitConfig = function() {
     buffer[1] = CONFIG;
     buffer[2] = this.config.frequency;
     buffer[3] = this.config.range;
-    console.log(buffer);
     this.device.send(buffer);
 };
 

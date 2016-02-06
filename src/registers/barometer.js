@@ -48,7 +48,6 @@ Barometer.prototype.commitConfig = function() {
     buffer[1]  = CONFIG;
     buffer[2]  = this.config.oversamplingMode << 2;
     buffer[3]  = (this.config.filterMode << 2) | (this.config.standbyTime << 5);
-    console.log(buffer);
     this.device.send(buffer)
 };
 
