@@ -27,20 +27,18 @@ Log.prototype.startLogging = function(overwrite) {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = CIRCULAR_BUFFER;
-    buffer[3] = overwrite ? 1 : 0;
-
+    buffer[2] = overwrite ? 1 : 0;
     this.device.send(buffer);
 
-    buffer = new Buffer(2);
+    buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = ENABLE;
     buffer[2] = 0x1;
-
     this.device.send(buffer);
 };
 
 Log.prototype.stopLogging = function() {
-    buffer = new Buffer(2);
+    buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = ENABLE;
     buffer[2] = 0x0;
@@ -48,7 +46,7 @@ Log.prototype.stopLogging = function() {
     this.device.send(buffer);
 };
 
-    Log.prototype.downloadLog = function() {
+Log.prototype.downloadLog = function() {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = READOUT_NOTIFY;
