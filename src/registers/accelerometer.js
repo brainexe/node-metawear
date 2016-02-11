@@ -71,8 +71,8 @@ const ACC_RANGE = {
 
 var Accelerometer = function(device) {
     this.device   = device;
-    this.dataRate = this.setOutputDataRate(50);
-    this.accRange = this.setAxisSamplingRange(2);
+    this.setOutputDataRate(50);
+    this.setAxisSamplingRange(2);
 };
 
 Accelerometer.prototype.start = function() {
