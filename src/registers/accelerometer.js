@@ -71,8 +71,8 @@ const ACC_RANGE = {
 
 var Accelerometer = function(device) {
     this.device   = device;
-    this.dataRate = this.setOutputDataRate(50);
-    this.accRange = this.setAxisSamplingRange(2);
+    this.setOutputDataRate(50);
+    this.setAxisSamplingRange(2);
 };
 
 Accelerometer.prototype.start = function() {
@@ -133,8 +133,8 @@ Accelerometer.prototype.setConfig = function() {
     var buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = DATA_CONFIG;
-    buffer[2] = 0x05; // TODO set correct value
-    buffer[3] = 0x06;
+    buffer[2] = 0x20 | this.dataRate;
+    buffer[3] = this.accRange[0];
     this.device.send(buffer);
 };
 

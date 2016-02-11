@@ -8,6 +8,9 @@
     "noble-device": "~1.1"
   },
   "devDependencies": {
+    "buffer-equal": "^1.0.0",
+    "jasmine": "^2.4.1",
+    "jasmine-spec-reporter": "^2.4.0",
     "mocha": "~2.4"
   },
   "keywords": [
@@ -23,7 +26,7 @@
   },
   "repository": "git@github.com:brainexe/node-metawear.git",
   "scripts": {
-    "test": "cd tests && mocha spec/**"
+    "test": "cd tests && node jasmine-runner.js"
   },
   "author": "Matthias Dötsch <matze@mdoetsch.de>",
   "license": "MIT"
