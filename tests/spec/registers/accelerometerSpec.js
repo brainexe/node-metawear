@@ -2,15 +2,9 @@ var Accelerometer = require('../../../src/registers/accelerometer'),
     Device   = require('../helpers/device'),
     bufferEqual = require('buffer-equal');
 
-
-
-
-
 describe("Accelerometer", function() {
 		var device = new Device(),
 				accelerometer = new Accelerometer(device);
-
-
 
 		it("should have 50hz as default value for output data rate", function() {
 			expect(accelerometer.dataRate).toEqual(0x7);
