@@ -17,7 +17,6 @@ describe("Accelerometer", function() {
 		describe("setConfig()", function() {
 			
 			beforeEach(function() {
-				//device = new Device();
 				spyOn(device, 'send').and.callThrough();
 				jasmine.addCustomEqualityTester(bufferEqual);
 			});
