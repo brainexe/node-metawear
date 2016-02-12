@@ -1,5 +1,5 @@
 {
-  "name": "node-metawear",
+  "name": "node-metawear-handsonio",
   "version": "0.2.2",
   "description": "API for metawear",
   "main" : "device.js",
