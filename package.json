@@ -2,6 +2,7 @@
   "name": "node-metawear",
   "version": "0.2.2",
   "description": "API for metawear",
+  "main" : "device.js",
   "dependencies": {
     "debug": "~2.2",
     "eventemitter2": "~0.4",
