@@ -1,6 +1,6 @@
 {
-  "name": "node-metawear-handsonio",
-  "version": "0.2.3",
+  "name": "node-metawear",
+  "version": "0.2.2",
   "description": "API for metawear",
   "main" : "src/device.js",
   "dependencies": {
