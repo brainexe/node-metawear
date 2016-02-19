@@ -14,7 +14,9 @@ const
     READOUT_PROGRESS = 0x8,
     REMOVE_ENTRIES = 0x9,
     REMOVE_ALL = 0xa,
-    CIRCULAR_BUFFER = 0xb;
+    CIRCULAR_BUFFER = 0xb,
+    READOUT_PAGE_COMPLETED = 0xd,
+    READOUT_PAGE_CONFIRM = 0xe;
 
 var Log = function(device) {
     this.device = device;
