@@ -60,7 +60,7 @@ Device.prototype.connectAndSetup = function(callback) {
 
   NobleDevice.prototype.connectAndSetup.call(self, function(){
 
-    self.notifyCharacteristic(SERIAL_UUID, NOTIFY_UUID, true, self._onRead.bind(self), function(err){
+    self.notifyCharacteristic(SERVICE_UUID, NOTIFY_UUID, true, self._onRead.bind(self), function(err){
 
       if (err) throw err;
 
