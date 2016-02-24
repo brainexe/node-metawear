@@ -17,34 +17,6 @@ var Device = function(peripheral) {
         wildcard: true,
         maxListeners: 30
     });
-
-    var self = this;
-
-    // todo we need a cleaner solution...
-    this.onSetup = function(callback) {
-        this.connectAndSetup.call(this, function(error) {
-            self.notifyCharacteristic(SERVICE_UUID, NOTIFY_UUID, true, function(buffer) {
-                var tmp = buffer.slice(0, 2);
-
-                var module = tmp[0];
-                var action = tmp[1] & 0x0f;
-                var data   = buffer.slice(2);
-
-                self.emitter.emit([module, action], data, module.toString(16), action.toString(16));
-
-                debug('',
-                    "received",
-                    registers.byId[module],
-                    action.toString(16),
-                    buffer
-                );
-            });
-            // todo dirty hack...something is not ready yet
-            setTimeout(function() {
-                callback(error);
-            }, 100);
-        });
-    };
 };
 
 Device.SCAN_UUIDS = [SERVICE_UUID];
@@ -88,7 +60,6 @@ Device.prototype._onRead = function(buffer) {
         action.toString(16),
         buffer
     );
-
 };
 
 
