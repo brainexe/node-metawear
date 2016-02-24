@@ -73,7 +73,7 @@ Device.prototype.connectAndSetup = function(callback) {
 
 };
 
-Bean.prototype._onRead = function(buffer) {
+Device.prototype._onRead = function(buffer) {
     var tmp = buffer.slice(0, 2);
 
     var module = tmp[0];
