@@ -17,34 +17,6 @@ var Device = function(peripheral) {
         wildcard: true,
         maxListeners: 30
     });
-
-    var self = this;
-
-    // todo we need a cleaner solution...
-    this.onSetup = function(callback) {
-        this.connectAndSetup.call(this, function(error) {
-            self.notifyCharacteristic(SERVICE_UUID, NOTIFY_UUID, true, function(buffer) {
-                var tmp = buffer.slice(0, 2);
-
-                var module = tmp[0];
-                var action = tmp[1] & 0x0f;
-                var data   = buffer.slice(2);
-
-                self.emitter.emit([module, action], data, module.toString(16), action.toString(16));
-
-                debug('',
-                    "received",
-                    registers.byId[module],
-                    action.toString(16),
-                    buffer
-                );
-            });
-            // todo dirty hack...something is not ready yet
-            setTimeout(function() {
-                callback(error)
-            }, 100);
-        });
-    };
 };
 
 Device.SCAN_UUIDS = [SERVICE_UUID];
@@ -52,6 +24,44 @@ Device.SCAN_UUIDS = [SERVICE_UUID];
 NobleDevice.Util.inherits(Device, NobleDevice);
 NobleDevice.Util.mixin(Device, NobleDevice.BatteryService);
 NobleDevice.Util.mixin(Device, NobleDevice.DeviceInformationService);
+
+
+Device.prototype.connectAndSetup = function(callback) {
+
+  var self = this;
+
+  NobleDevice.prototype.connectAndSetup.call(self, function(){
+
+    self.notifyCharacteristic(SERVICE_UUID, NOTIFY_UUID, true, self._onRead.bind(self), function(err){
+
+      if (err) throw err;
+
+      self.emit('ready',err);
+      callback(err);
+
+    });
+
+  });
+
+};
+
+Device.prototype._onRead = function(buffer) {
+    var tmp = buffer.slice(0, 2);
+
+    var module = tmp[0];
+    var action = tmp[1] & 0x0f;
+    var data   = buffer.slice(2);
+
+    this.emitter.emit([module, action], data, module.toString(16), action.toString(16));
+
+    debug('',
+        "received",
+        registers.byId[module],
+        action.toString(16),
+        buffer
+    );
+};
+
 
 Device.prototype.send = function(data, callback) {
     debug('', 'send', registers.byId[data[0]], data);
