@@ -17,12 +17,12 @@ devices.discover(function(device) {
         console.log('we got disconnected! :( ');
     });
 
-    device.onSetup(function (error) {
+    device.connectAndSetup(function (error) {
         console.log('we are ready');
         currentDevice = device;
     });
 });
-console.log('start server on port ' + port + '...');
+console.log('start server on http://localhost:' + port);
 
 http.createServer(function(request, response){
     function writeResponse(code, body) {

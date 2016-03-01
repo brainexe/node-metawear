@@ -8,7 +8,7 @@ devices.discover(function(device) {
         console.log('we got disconnected! :( ');
     });
 
-    device.onSetup(function(error) {
+    device.connectAndSetup(function(error) {
         console.log('were connected!');
 
         var gyro = new device.Gyro(device);
