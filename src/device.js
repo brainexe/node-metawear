@@ -27,29 +27,24 @@ NobleDevice.Util.mixin(Device, NobleDevice.DeviceInformationService);
 
 
 Device.prototype.connectAndSetup = function(callback) {
-
   var self = this;
 
   NobleDevice.prototype.connectAndSetup.call(self, function(){
 
     self.notifyCharacteristic(SERVICE_UUID, NOTIFY_UUID, true, self._onRead.bind(self), function(err){
-
       if (err) throw err;
 
       self.emit('ready',err);
       callback(err);
-
     });
-
   });
-
 };
 
 Device.prototype._onRead = function(buffer) {
     var tmp = buffer.slice(0, 2);
 
     var module = tmp[0];
-    var action = tmp[1] & 0x0f;
+    var action = tmp[1] & 0x1f;
     var data   = buffer.slice(2);
 
     this.emitter.emit([module, action], data, module.toString(16), action.toString(16));
@@ -61,7 +56,6 @@ Device.prototype._onRead = function(buffer) {
         buffer
     );
 };
-
 
 Device.prototype.send = function(data, callback) {
     debug('', 'send', registers.byId[data[0]], data);
