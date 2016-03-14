@@ -51,7 +51,7 @@ The functionality is very limited at the moment:
 - Control LED
 - Start buzzer/motor
 - Read/Set Device name
-- Read switch status (+ get pressed/release events)
+- Read switch status (+ pressed/release events)
 - Read out battery status
 - Accelerometer / Gyroscope
 - Step counter
