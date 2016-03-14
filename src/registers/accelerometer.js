@@ -116,6 +116,77 @@ Accelerometer.prototype.start = function() {
     this.device.send(buffer);
 };
 
+Accelerometer.prototype.enableStepDetector = function(callback, sensitivity) {
+    var config = new Buffer(2);
+    switch (sensitivity) {
+        case 'ROBUST':
+            config[0] = 0x1d;
+            config[1] = 0x7;
+            break;
+        case 'SENSITIVE':
+            config[0] = 0x2d;
+            config[1] = 0x3;
+            break;
+        case 'NORMAL':
+        default:
+            config[0] = 0x15;
+            config[1] = 0x3;
+            break;
+    }
+
+    var buffer = new Buffer(4);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = STEP_DETECTOR_CONFIG;
+    buffer[2] = config[0];
+    buffer[3] = config[1] | 0x08;
+    this.device.send(buffer);
+
+    buffer = new Buffer(4);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = STEP_DETECTOR_INTERRUPT_ENABLE;
+    buffer[2] = 0x1;
+    buffer[3] = 0x0;
+    this.device.send(buffer);
+
+    buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = STEP_DETECTOR_INTERRUPT;
+    buffer[2] = 0x1;
+    this.device.send(buffer);
+
+    this.device.emitter.on([MODULE_OPCODE, STEP_DETECTOR_INTERRUPT], function() {
+        callback();
+    });
+};
+
+Accelerometer.prototype.disableStepDetector = function() {
+    var buffer = new Buffer(4);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = STEP_DETECTOR_INTERRUPT_ENABLE;
+    buffer[2] = 0x0;
+    buffer[3] = 0x1;
+    this.device.send(buffer);
+};
+
+Accelerometer.prototype.resetStepCounter = function() {
+    var buffer = new Buffer(2);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = STEP_COUNTER_RESET;
+    this.device.send(buffer);
+};
+
+Accelerometer.prototype.readStepCounter = function(callback, silent) {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = STEP_COUNTER_DATA;
+    buffer[2] = silent;
+    this.device.sendRead(buffer);
+
+    this.device.emitter.once([MODULE_OPCODE, STEP_COUNTER_DATA], function(buffer) {
+        callback(buffer.readInt16LE(0));
+    });
+};
+
 Accelerometer.prototype.onChange = function(callback) {
     var scale = this.accRange[1];
 

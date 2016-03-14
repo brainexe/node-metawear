@@ -54,6 +54,7 @@ The functionality is very limited at the moment:
 - Read switch status (+ get pressed/release events)
 - Read out battery status
 - Accelerometer / Gyroscope
+- Step counter
 - Temperature sensor
 - Ambient light sensor
 - Barometer sensor
