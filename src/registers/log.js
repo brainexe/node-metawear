@@ -50,13 +50,13 @@ Log.prototype.stopLogging = function() {
 
 Log.prototype.downloadLog = function() {
 
-/*
+
     buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = READOUT_PAGE_COMPLETED;
     buffer[2] = 0x1;
     this.device.send(buffer);
-*/
+
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = READOUT_NOTIFY;
@@ -84,6 +84,8 @@ Log.prototype.downloadLog = function() {
         //callback(buffer.readInt8(0));
     });
 
+
+
     var self = this;
     this.device.emitter.on([MODULE_OPCODE, LENGTH], function(lengthBuffer) {
         var length = lengthBuffer.readInt8(0);
@@ -108,6 +110,11 @@ Log.prototype.downloadLog = function() {
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
         console.log(buffer);
     });
+
+    this.device.emitter.on([MODULE_OPCODE, READOUT_PAGE_COMPLETED], function(buffer) {
+        console.log('Page completed');
+    });
+
 
 };
 

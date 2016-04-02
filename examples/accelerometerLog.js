@@ -30,7 +30,7 @@ devices.discover(function(device) {
             logger.stopLogging();
             logger.downloadLog();
             
-        }, 1000);
+        }, 2000);
 
         //settings.setDeviceName('brainexe');
     });
