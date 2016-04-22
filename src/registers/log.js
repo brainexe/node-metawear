@@ -89,12 +89,12 @@ Log.prototype.downloadLog = function() {
     var self = this;
     this.device.emitter.on([MODULE_OPCODE, LENGTH], function(lengthBuffer) {
 
-        console.log(lengthBuffer);
+        //console.log(lengthBuffer);
 
         var logEntries = (lengthBuffer.length > 2) ? lengthBuffer.readInt32LE() : lengthBuffer.readInt16LE();
 
         
-        if (logEntries == 0) {
+        if (!logEntries) {
             return; // no logs
         }
         var progress = 1;

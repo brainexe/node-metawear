@@ -5,8 +5,8 @@ var Log = require('../../../src/registers/log'),
 describe("Logging", function() {
 	var device = new Device(),
 			log = new Log(device),
-			module = 0xb,
-			length = 0x5 | 0x80; // LENGTH sendRead 
+			module = 0xb, // Log
+			length = 0x5; // LENGTH  
 
 	describe('downloadLog()', function() {
 		beforeAll(function() {
@@ -47,7 +47,7 @@ describe("Logging", function() {
 
 		});
 
-		xit('should trigger the log READOUT if not empty', function() {
+		it('should trigger the log READOUT if not empty', function() {
 			var data = new Buffer([0x9,0xb,0x0,0x0]);
 			
 			log.downloadLog();
@@ -57,7 +57,9 @@ describe("Logging", function() {
 			device.send.calls.reset();
 			device.emitter.emit([module, length], data, module.toString(16), length.toString(16));
 			
-			expect(device.send).toHaveBeenCalledTimes(1);
+
+			expect(device.send).toHaveBeenCalled();
+
 
 		});
 
