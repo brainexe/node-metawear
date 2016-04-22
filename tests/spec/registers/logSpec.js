@@ -6,7 +6,7 @@ describe("Logging", function() {
 	var device = new Device(),
 			log = new Log(device),
 			module = 0xb,
-			length = 0x5 | 0x80; // LENGTH Notification 
+			length = 0x5 | 0x80; // LENGTH sendRead 
 
 	describe('downloadLog()', function() {
 		beforeAll(function() {
@@ -33,7 +33,7 @@ describe("Logging", function() {
 			expect(device.buffers.pop()).toEqual(new Buffer([0xb,0x85]));
 		});
 
-		it('should not READOUT the logs if it is empty', function() {
+		it('should not trigger the log READOUT if no entries', function() {
 
 			var data = new Buffer([0x0,0x0,0x0,0x0]);
 			log.downloadLog();
@@ -47,7 +47,7 @@ describe("Logging", function() {
 
 		});
 
-		xit('should READOUT the logs if not empty', function() {
+		xit('should trigger the log READOUT if not empty', function() {
 			var data = new Buffer([0x9,0xb,0x0,0x0]);
 			
 			log.downloadLog();
