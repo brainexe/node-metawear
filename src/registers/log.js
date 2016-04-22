@@ -91,7 +91,7 @@ Log.prototype.downloadLog = function() {
 
         //console.log(lengthBuffer);
 
-        var logEntries = (lengthBuffer.length > 2) ? lengthBuffer.readInt32LE() : lengthBuffer.readInt16LE();
+        var logEntries = (lengthBuffer.length > 2) ? lengthBuffer.readInt32LE(0) : lengthBuffer.readInt16LE(0);
 
         
         if (!logEntries) {
