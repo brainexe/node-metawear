@@ -77,7 +77,7 @@ Log.prototype.downloadLog = function() {
     // TODO
     buffer = new Buffer(2);
     buffer[0] = MODULE_OPCODE;
-    buffer[1] = LENGTH;
+    buffer[1] = LENGTH; //read command 
     this.device.sendRead(buffer);
 
     this.device.emitter.on([MODULE_OPCODE, TIME], function(buffer) {
@@ -88,14 +88,19 @@ Log.prototype.downloadLog = function() {
 
     var self = this;
     this.device.emitter.on([MODULE_OPCODE, LENGTH], function(lengthBuffer) {
-        var length = lengthBuffer.readInt8(0);
-        if (!length) {
+
+        console.log(lengthBuffer);
+
+        var logEntries = (lengthBuffer.length > 2) ? lengthBuffer.readInt32LE() : lengthBuffer.readInt16LE();
+
+        
+        if (logEntries == 0) {
             return; // no logs
         }
         var progress = 1;
-        var entriesNotify = length * progress;
+        var entriesNotify = logEntries * progress;
 
-        console.log(length + ' logs to download');
+        //console.log(length + ' logs to download');
 
         buffer = new Buffer(6);
         buffer[0] = MODULE_OPCODE;
