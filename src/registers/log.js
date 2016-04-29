@@ -108,11 +108,13 @@ Log.prototype.downloadLog = function() {
         buffer[2] = lengthBuffer[0];
         buffer[3] = lengthBuffer[1];
 
+        // Dirty hack, the data buffer should be replicated at the offset #2
+
         buffer[4] = 0;
         buffer[5] = 0;
 
 
-        buffer.writeInt32LE(entriesNotify,6);
+        buffer.writeUInt32LE(entriesNotify,6);
 
         /*
         buffer[4] = entriesNotify & 0xff;
