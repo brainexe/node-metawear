@@ -114,7 +114,7 @@ Log.prototype.downloadLog = function() {
         buffer[5] = 0;
 
 
-        buffer.writeUInt32LE(entriesNotify,6);
+        buffer.writeInt32LE(entriesNotify & 0xff,6);
 
         /*
         buffer[4] = entriesNotify & 0xff;
