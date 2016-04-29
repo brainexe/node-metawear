@@ -47,8 +47,8 @@ describe("Logging", function() {
 
 		});
 
-		it('should trigger the log READOUT if not empty', function() {
-			var data = new Buffer([0x9,0xb,0x0,0x0]);
+		it('should trigger the log READOUT specifying the correct number of entries to be notified for 0.05 notification progress', function() {
+			var data = new Buffer([0x68,0x8,0x0,0x0]);
 			
 			log.downloadLog();
 			
@@ -59,6 +59,10 @@ describe("Logging", function() {
 			
 
 			expect(device.send).toHaveBeenCalled();
+
+			var result = device.buffers.pop();
+			console.log(result);
+			expect(result).toEqual(new Buffer([0xb,0x6,0x68,0x8,0x0,0x0,0x6b,0x0,0x0,0x0]));
 
 
 		});

@@ -97,18 +97,27 @@ Log.prototype.downloadLog = function() {
         if (!logEntries) {
             return; // no logs
         }
-        var progress = 1;
+        var progress = 0.05;
         var entriesNotify = logEntries * progress;
 
         //console.log(length + ' logs to download');
 
-        buffer = new Buffer(6);
+        buffer = new Buffer(10);
         buffer[0] = MODULE_OPCODE;
         buffer[1] = READOUT;
         buffer[2] = lengthBuffer[0];
         buffer[3] = lengthBuffer[1];
+
+        buffer[4] = 0;
+        buffer[5] = 0;
+
+
+        buffer.writeInt32LE(entriesNotify,6);
+
+        /*
         buffer[4] = entriesNotify & 0xff;
         buffer[5] = (entriesNotify >> 8) & 0xff;
+        */
         self.device.send(buffer);
     });
 
