@@ -20,7 +20,6 @@ describe("Log", function() {
 			expect(referenceTick.resetUid).toEqual(0x4);
 			expect(referenceTick.tick).toEqual(1590289784);
 
-
 		});
 	});
 
@@ -65,14 +64,13 @@ describe("Log", function() {
 
 		it('should trigger the log READOUT specifying the correct number of entries to be notified for 0.05 notification progress', function() {
 			var data = new Buffer([0x68,0x8,0x0,0x0]);
-			
 			log.downloadLog();
 			
 			expect(device.send.calls.any()).toBe(true);
 			
 			device.send.calls.reset();
 
-			
+			device.emitter.emit([MODULE, LENGTH], data, MODULE.toString(16), LENGTH.toString(16));
 			expect(device.send).toHaveBeenCalled();
 			expect(device.buffers.pop()).toEqual(new Buffer([0xb,0x6,0x68,0x8,0x0,0x0,0x6b,0x0,0x0,0x0]));
 		});

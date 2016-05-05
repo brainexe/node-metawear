@@ -24,7 +24,8 @@ devices.discover(function(device) {
         accelerometer.start();
 
 
-        setInterval(function() {
+        setTimeout(function() {
+            console.log('Stop');
             accelerometer.stop();
             accelerometer.disableAxisSampling();
             logger.stopLogging();

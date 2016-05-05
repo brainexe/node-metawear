@@ -152,6 +152,12 @@ Log.prototype.downloadLog = function(callback) {
         var logId = buffer[0] & 0x1f;
         var resetUid = (buffer[0] & 0xe0) >> 5;
 
+        var formatted = {
+            x: buffer.readInt16LE(7) / 16384,
+            y: buffer.readInt16LE(9) / 16384,
+            z: buffer.readInt16LE(12) / 16384
+        };
+
         
         //store the logId into logEntries
 
@@ -164,6 +170,9 @@ Log.prototype.downloadLog = function(callback) {
 
         */
 
+
+
+        console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
 
 
     });

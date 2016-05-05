@@ -53,8 +53,8 @@ Device.prototype._onRead = function(buffer) {
     this.emitter.emit([module, action], data, module.toString(16), action.toString(16));
 
 
-    // dirty hack, normally the value must be hidden behind a constant from Log register
-    if(module == 0xb) {
+    
+    if(module == registers['LOGGING']) {
         var referenceTick = this.Log.getLoggingTick(data);
         if(referenceTick.restUid != -1) {
             this.logReferenceTicks.set(referenceTick.restUid, referenceTick);
