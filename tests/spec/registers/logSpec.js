@@ -5,8 +5,9 @@ var Log = require('../../../src/registers/log'),
 describe("Logging", function() {
 	var device = new Device(),
 			log = new Log(device),
-			module = 0xb, // Log
-			length = 0x5; // LENGTH  
+			MODULE = 0xb, // LOG
+			LENGTH = 0x5; // LENGTH  
+			READOUT_NOTIFY = 0x7; //READOUT_NOTIFY
 
 	describe('downloadLog()', function() {
 		beforeAll(function() {
@@ -41,7 +42,7 @@ describe("Logging", function() {
 			expect(device.send.calls.any()).toBe(true);
 			
 			device.send.calls.reset();
-			device.emitter.emit([module, length], data, module.toString(16), length.toString(16));
+			device.emitter.emit([MODULE, LENGTH], data, MODULE.toString(16), LENGTH.toString(16));
 			
 			expect(device.send.calls.any()).toBe(false);
 
@@ -55,16 +56,34 @@ describe("Logging", function() {
 			expect(device.send.calls.any()).toBe(true);
 			
 			device.send.calls.reset();
-			device.emitter.emit([module, length], data, module.toString(16), length.toString(16));
+
 			
-
 			expect(device.send).toHaveBeenCalled();
+			expect(device.buffers.pop()).toEqual(new Buffer([0xb,0x6,0x68,0x8,0x0,0x0,0x6b,0x0,0x0,0x0]));
+		});
 
-			var result = device.buffers.pop();
-			console.log(result);
-			expect(result).toEqual(new Buffer([0xb,0x6,0x68,0x8,0x0,0x0,0x6b,0x0,0x0,0x0]));
+		describe('log data processing', function() {
+			it('should process two distinct record from a 20 bytes data frame ', function() {
+				
+				var data = new Buffer([0x40,0x3c,0xf9,0x91,0x18,0x8a,0xfc,0x87,0x4,0x41,0x3c,0xf9,0x91,0x18,0x84,0x41,0x0,0x0]);
+				var accelerometerData_1 = {x: 0, y: 0, z: 0};
+				var accelerometerData_2 = {x: 0, y: 0, z: 0};
+				
+				var foo = {
+					callback: function(data) {
+						return data;
+					}
+				};
+
+				spyOn(foo.callback).and.callThrough();
+				log.downloadLog(foo.callback);
+				device.emitter.emit([MODULE, READOUT_NOTIFY], data, MODULE.toString(16), READOUT_NOTIFY.toString(16));
+
+				expect(foo.setBar.calls.argsFor(0)).toEqual([accelerometerData_1]);
+				expect(foo.setBar.calls.argsFor(1)).toEqual([accelerometerData_2]);
 
 
+			});
 		});
 
 	});

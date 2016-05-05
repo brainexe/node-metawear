@@ -22,6 +22,13 @@ var Log = function(device) {
     this.device = device;
 };
 
+
+/*
+
+    private final Map<Byte, Long> lastTimestamp= new HashMap<>();
+
+*/
+
 /**
  * @param {Boolean} overwrite
  */
@@ -48,7 +55,7 @@ Log.prototype.stopLogging = function() {
     this.device.send(buffer);
 };
 
-Log.prototype.downloadLog = function() {
+Log.prototype.downloadLog = function(callback) {
 
 
     buffer = new Buffer(3);
@@ -82,6 +89,18 @@ Log.prototype.downloadLog = function() {
 
     this.device.emitter.on([MODULE_OPCODE, TIME], function(buffer) {
         //callback(buffer.readInt8(0));
+
+        /*
+
+        final long tick= ByteBuffer.wrap(response, 2, 4).order(ByteOrder.LITTLE_ENDIAN).getInt() & 0xffffffffL;
+        byte resetUid= (response.length > 6) ? response[6] : -1;
+
+        latestTick= new ReferenceTick(resetUid, tick, Calendar.getInstance());
+        if (resetUid != -1) {
+            logReferenceTicks.put(latestTick.resetUid(), latestTick);
+        }
+            
+        */
     });
 
 
@@ -124,7 +143,24 @@ Log.prototype.downloadLog = function() {
     });
 
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
-        console.log(buffer);
+        /*
+            Process buffer 2 -> 11
+
+            If buffer.length == 20
+                Process buffer 11 -> 20
+
+        */
+    });
+
+    this.device.emitter.on([MODULE_OPCODE, READOUT_PROGRESS], function(buffer) {
+        /*
+                ByteBuffer buffer= ByteBuffer.wrap(response, 2, response.length - 2).order(ByteOrder.LITTLE_ENDIAN);
+                final long nEntriesLeft= (response.length > 4) ? buffer.getInt() & 0xffffffffL : buffer.getShort() & 0xffff;
+
+                if (nEntriesLeft == 0) {
+                    lastTimestamp.clear();
+                }
+        */
     });
 
     this.device.emitter.on([MODULE_OPCODE, READOUT_PAGE_COMPLETED], function(buffer) {
