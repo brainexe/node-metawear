@@ -101,7 +101,7 @@ describe("Log", function() {
 			});
 		});
 
-		describe('READOUT_PROGRESS', function() {
+		xdescribe('READOUT_PROGRESS', function() {
 			it('should clear the lastTimeStamp if no more entries left', function() {
 				//lastTimestamp.clear();
 			})
