@@ -143,6 +143,12 @@ Log.prototype.downloadLog = function(callback) {
     });
 
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
+        
+
+        
+        //store the logId into logEntries
+        
+
         /*
             Process buffer 2 -> 11
 
@@ -150,6 +156,9 @@ Log.prototype.downloadLog = function(callback) {
                 Process buffer 11 -> 20
 
         */
+
+
+
     });
 
     this.device.emitter.on([MODULE_OPCODE, READOUT_PROGRESS], function(buffer) {
