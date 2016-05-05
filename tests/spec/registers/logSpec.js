@@ -2,12 +2,27 @@ var Log = require('../../../src/registers/log'),
     Device   = require('../helpers/device'),
     bufferEqual = require('buffer-equal');
 
-describe("Logging", function() {
+describe("Log", function() {
 	var device = new Device(),
 			log = new Log(device),
 			MODULE = 0xb, // LOG
 			LENGTH = 0x5; // LENGTH  
 			READOUT_NOTIFY = 0x7; //READOUT_NOTIFY
+
+
+	describe('getLoggingTick', function() {
+		it('should return the logging tick from a log module notification', function() {
+			var response = new Buffer([0xb, 0x84, 0x78, 0xe5, 0xc9, 0x5e, 0x4]);
+
+			var referenceTick = Log.getLoggingTick(response);
+
+			expect(referenceTick).toBeDefined();
+			expect(referenceTick.resetUid).toEqual(0x4);
+			expect(referenceTick.tick).toEqual(1590289784);
+
+
+		});
+	});
 
 	describe('downloadLog()', function() {
 		beforeAll(function() {
@@ -62,11 +77,11 @@ describe("Logging", function() {
 			expect(device.buffers.pop()).toEqual(new Buffer([0xb,0x6,0x68,0x8,0x0,0x0,0x6b,0x0,0x0,0x0]));
 		});
 
-		describe('log data processing', function() {
+		xdescribe('log data processing', function() {
 			it('should process two distinct record from a 20 bytes data frame ', function() {
 				
 				var data = new Buffer([0x40,0x3c,0xf9,0x91,0x18,0x8a,0xfc,0x87,0x4,0x41,0x3c,0xf9,0x91,0x18,0x84,0x41,0x0,0x0]);
-				var accelerometerData_1 = {x: 0, y: 0, z: 0};
+				var accelerometerData_1 = {x: 0.38385009765625, y: -0.0540771484375, z: 0.07073974609375};
 				var accelerometerData_2 = {x: 0, y: 0, z: 0};
 				
 				var foo = {
@@ -84,6 +99,12 @@ describe("Logging", function() {
 
 
 			});
+		});
+
+		describe('READOUT_PROGRESS', function() {
+			it('should clear the lastTimeStamp if no more entries left', function() {
+				//lastTimestamp.clear();
+			})
 		});
 
 	});

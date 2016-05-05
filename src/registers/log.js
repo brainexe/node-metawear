@@ -29,6 +29,11 @@ var Log = function(device) {
 
 */
 
+
+
+
+
+
 /**
  * @param {Boolean} overwrite
  */
@@ -144,10 +149,12 @@ Log.prototype.downloadLog = function(callback) {
 
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
         
+        var logId = buffer[0] & 0x1f;
+        var resetUid = (buffer[0] & 0xe0) >> 5;
 
         
         //store the logId into logEntries
-        
+
 
         /*
             Process buffer 2 -> 11
@@ -186,6 +193,17 @@ Log.prototype.removeAll = function() {
     buffer[2] = 0xff;
     buffer[3] = 0xff;
     this.device.send(buffer);
+};
+
+Log.getLoggingTick = function(response) {
+    var tick  = response.readInt32LE(2);
+    var resetUid = (response.length > 6) ? response[6] : -1;
+
+    return {
+        'resetUid': resetUid,
+        'tick': tick,
+        'creationDate' : new Date()
+    };
 };
 
 module.exports = Log;
