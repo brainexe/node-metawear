@@ -75,34 +75,40 @@ describe("Log", function() {
 			expect(device.buffers.pop()).toEqual(new Buffer([0xb,0x6,0x68,0x8,0x0,0x0,0x6b,0x0,0x0,0x0]));
 		});
 
-		xdescribe('log data processing', function() {
-			it('should process two distinct record from a 20 bytes data frame ', function() {
+		describe('log data processing', function() {
+			it('should extract the accelerometer measures from a 20 bytes data frame', function() {
 				
-				var data = new Buffer([0x40,0x3c,0xf9,0x91,0x18,0x8a,0xfc,0x87,0x4,0x41,0x3c,0xf9,0x91,0x18,0x84,0x41,0x0,0x0]);
-				var accelerometerData_1 = {x: 0.38385009765625, y: -0.0540771484375, z: 0.07073974609375};
-				var accelerometerData_2 = {x: 0, y: 0, z: 0};
+				var data = new Buffer([0x0b,0x7,0x40,0x3c,0xf9,0x91,0x18,0x8a,0xfc,0x87,0x4,0x41,0x3c,0xf9,0x91,0x18,0x84,0x41,0x0,0x0]);
+
+				var accelerometerData_1 = {x: -0.0540771484375, y: 0.07073974609375, z: -0.105712890625};
+				//var accelerometerData_2 = {x: 0, y: 0, z: 0};
 				
 				var foo = {
-					callback: function(data) {
-						return data;
+					callback: function(accelerometer_data) {
+						return accelerometer_data;
 					}
 				};
 
-				spyOn(foo.callback).and.callThrough();
-				log.downloadLog(foo.callback);
-				device.emitter.emit([MODULE, READOUT_NOTIFY], data, MODULE.toString(16), READOUT_NOTIFY.toString(16));
+				spyOn(foo,'callback').and.callThrough();
+				debugger;
+				//log.downloadLog(foo.callback);
+				log.downloadLog();
+				log.onLogData(foo.callback);
+				
+				device.emitter.emit([MODULE, READOUT_NOTIFY], data, MODULE.toString(16), READOUT_NOTIFY.toString(32));
 
-				expect(foo.setBar.calls.argsFor(0)).toEqual([accelerometerData_1]);
-				expect(foo.setBar.calls.argsFor(1)).toEqual([accelerometerData_2]);
-
+				console.log(foo.callback.calls.argsFor(0)[0]);
+				expect(foo.callback.calls.argsFor(0)[0].x).toEqual(accelerometerData_1.x);
+				expect(foo.callback.calls.argsFor(0)[0].y).toEqual(accelerometerData_1.y);
+				expect(foo.callback.calls.argsFor(0)[0].z).toEqual(accelerometerData_1.z);
 
 			});
 		});
 
 		xdescribe('READOUT_PROGRESS', function() {
-			it('should clear the lastTimeStamp if no more entries left', function() {
+			xit('should clear the lastTimeStamp if no more entries left', function() {
 				//lastTimestamp.clear();
-			})
+			});
 		});
 
 	});
