@@ -12,6 +12,8 @@
   "devDependencies": {
     "buffer-equal": "^1.0.0",
     "jasmine": "^2.4.1",
+    "jasmine-debug": "^0.1.1",
+    "jasmine-node": "^1.14.5",
     "jasmine-spec-reporter": "^2.4.0",
     "mocha": "~2.4"
   },

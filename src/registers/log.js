@@ -111,13 +111,13 @@ Log.prototype.downloadLog = function(callback) {
 
 
     var self = this;
+
     this.device.emitter.on([MODULE_OPCODE, LENGTH], function(lengthBuffer) {
 
         //console.log(lengthBuffer);
 
         var logEntries = (lengthBuffer.length > 2) ? lengthBuffer.readInt32LE(0) : lengthBuffer.readInt16LE(0);
 
-        
         if (!logEntries) {
             return; // no logs
         }
@@ -146,7 +146,49 @@ Log.prototype.downloadLog = function(callback) {
         */
         self.device.send(buffer);
     });
+/*
+    this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
+        
+        var logId = buffer[0] & 0x1f;
+        var resetUid = (buffer[0] & 0xe0) >> 5;
 
+        var formatted = {
+            x: buffer.readInt16LE(7) / 16384,
+            y: buffer.readInt16LE(9) / 16384,
+            z: buffer.readInt16LE(12) / 16384
+        };
+
+        
+        //store the logId into logEntries
+
+  
+
+        console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
+        debugger;
+        callback(formatted);
+
+
+    });
+*/
+    this.device.emitter.on([MODULE_OPCODE, READOUT_PROGRESS], function(buffer) {
+        /*
+                ByteBuffer buffer= ByteBuffer.wrap(response, 2, response.length - 2).order(ByteOrder.LITTLE_ENDIAN);
+                final long nEntriesLeft= (response.length > 4) ? buffer.getInt() & 0xffffffffL : buffer.getShort() & 0xffff;
+
+                if (nEntriesLeft == 0) {
+                    lastTimestamp.clear();
+                }
+        */
+    });
+
+    this.device.emitter.on([MODULE_OPCODE, READOUT_PAGE_COMPLETED], function(buffer) {
+        console.log('Page completed');
+    });
+
+
+};
+
+Log.prototype.onLogData = function(callback) {
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
         
         var logId = buffer[0] & 0x1f;
@@ -173,26 +215,11 @@ Log.prototype.downloadLog = function(callback) {
 
 
         console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
+        debugger;
+        callback(formatted);
 
 
     });
-
-    this.device.emitter.on([MODULE_OPCODE, READOUT_PROGRESS], function(buffer) {
-        /*
-                ByteBuffer buffer= ByteBuffer.wrap(response, 2, response.length - 2).order(ByteOrder.LITTLE_ENDIAN);
-                final long nEntriesLeft= (response.length > 4) ? buffer.getInt() & 0xffffffffL : buffer.getShort() & 0xffff;
-
-                if (nEntriesLeft == 0) {
-                    lastTimestamp.clear();
-                }
-        */
-    });
-
-    this.device.emitter.on([MODULE_OPCODE, READOUT_PAGE_COMPLETED], function(buffer) {
-        console.log('Page completed');
-    });
-
-
 };
 
 Log.prototype.removeAll = function() {
