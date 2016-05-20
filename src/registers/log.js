@@ -20,6 +20,7 @@ const
 
 var Log = function(device) {
     this.device = device;
+    
 };
 
 
@@ -81,10 +82,10 @@ Log.prototype.downloadLog = function(callback) {
     buffer[2] = 0x1;
     this.device.send(buffer);
 
-    // buffer = new Buffer(2);
-    // buffer[0] = MODULE_OPCODE;
-    // buffer[1] = TIME;
-    // this.device.sendRead(buffer);
+    buffer = new Buffer(2);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = TIME;
+    this.device.sendRead(buffer);
 
     // TODO
     buffer = new Buffer(2);
@@ -193,6 +194,7 @@ Log.prototype.onLogData = function(callback) {
         
         var logId = buffer[0] & 0x1f;
         var resetUid = (buffer[0] & 0xe0) >> 5;
+
 
         var formatted = {
             x: buffer.readInt16LE(7) / 16384,

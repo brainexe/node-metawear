@@ -32,6 +32,8 @@ describe("Log", function() {
 
 		beforeEach(function() {
 			device.reset();
+			device.send.calls.reset();
+			device.sendRead.calls.reset();
 		});
 
 		it('should trigger the subscribtion to READOUT_PAGE_COMPLETED, READOUT_NOTIFY, READOUT_PROGRESS', function() {
@@ -42,10 +44,17 @@ describe("Log", function() {
 			expect(device.buffers[2]).toEqual(new Buffer([0xb,0x8,0x1]));
 		});
 
-		it('should trigger the reading of the length', function() {
+		it('should trigger the reading the latest tick in order to have an initial reference for the log', function() {
 			log.downloadLog();
 			expect(device.sendRead).toHaveBeenCalled();
-			expect(device.buffers.pop()).toEqual(new Buffer([0xb,0x85]));
+			expect(device.buffers[3]).toEqual(new Buffer([0xb,0x84]));
+		});
+
+
+		it('should trigger the reading the length of the log', function() {
+			log.downloadLog();
+			expect(device.sendRead).toHaveBeenCalled();
+			expect(device.buffers[4]).toEqual(new Buffer([0xb,0x85]));
 		});
 
 		it('should not trigger the log READOUT if no entries', function() {
