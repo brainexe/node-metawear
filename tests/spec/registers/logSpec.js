@@ -7,7 +7,10 @@ describe("Log", function() {
 			log = new Log(device),
 			MODULE = 0xb, // LOG
 			LENGTH = 0x5; // LENGTH  
+			TIME = 0x4;
 			READOUT_NOTIFY = 0x7; //READOUT_NOTIFY
+			READOUT_PAGE_COMPLETED = 0xd;
+			READOUT_PAGE_CONFIRM = 0xe;
 
 
 	describe('getLoggingTick', function() {
@@ -15,6 +18,7 @@ describe("Log", function() {
 			var response = new Buffer([0xb, 0x84, 0x78, 0xe5, 0xc9, 0x5e, 0x4]);
 
 			var referenceTick = Log.getLoggingTick(response);
+
 
 			expect(referenceTick).toBeDefined();
 			expect(referenceTick.resetUid).toEqual(0x4);
@@ -44,7 +48,7 @@ describe("Log", function() {
 			expect(device.buffers[2]).toEqual(new Buffer([0xb,0x8,0x1]));
 		});
 
-		it('should trigger the reading the latest tick in order to have an initial reference for the log', function() {
+		it('should trigger the reading of the latest tick in order to have an initial reference for the log', function() {
 			log.downloadLog();
 			expect(device.sendRead).toHaveBeenCalled();
 			expect(device.buffers[3]).toEqual(new Buffer([0xb,0x84]));
@@ -84,6 +88,20 @@ describe("Log", function() {
 			expect(device.buffers.pop()).toEqual(new Buffer([0xb,0x6,0x68,0x8,0x0,0x0,0x6b,0x0,0x0,0x0]));
 		});
 
+		describe('latestTick', function() {
+			it('should be stored when the response of the first TIME request is received', function() {
+				var data = new Buffer([0xb, 0x84, 0x78, 0xe5, 0xc9, 0x5e, 0x4]);
+
+				log.downloadLog();
+				device.emitter.emit([MODULE, TIME], data, MODULE.toString(16), TIME.toString(16));
+	
+				expect(log.latestTick.tick).toBeDefined();
+				expect(log.latestTick.tick).toEqual(1590289784);
+				
+
+			});
+		});
+
 		describe('log data processing', function() {
 			it('should extract the accelerometer measures from a 20 bytes data frame', function() {
 				
@@ -112,13 +130,24 @@ describe("Log", function() {
 				expect(foo.callback.calls.argsFor(0)[0].z).toEqual(accelerometerData_1.z);
 
 			});
+
+				describe('A completed log page notification', function() {
+					it('should trigger the confirmation of its processing', function() {
+						var data = new Buffer([0x0b,0xd]);
+
+						log.downloadLog();
+
+						device.send.calls.reset();
+						
+						device.emitter.emit([MODULE, READOUT_PAGE_COMPLETED], data, MODULE.toString(16), READOUT_PAGE_COMPLETED.toString(32));
+						expect(device.send).toHaveBeenCalled();
+						//console.log(device.buffers);
+						expect(device.buffers.pop()).toEqual(new Buffer([0xb,READOUT_PAGE_CONFIRM]));
+					});
+				});
+
 		});
 
-		xdescribe('READOUT_PROGRESS', function() {
-			xit('should clear the lastTimeStamp if no more entries left', function() {
-				//lastTimestamp.clear();
-			});
-		});
 
 	});
 					

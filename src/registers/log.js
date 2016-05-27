@@ -20,7 +20,7 @@ const
 
 var Log = function(device) {
     this.device = device;
-    
+
 };
 
 
@@ -93,7 +93,14 @@ Log.prototype.downloadLog = function(callback) {
     buffer[1] = LENGTH; //read command 
     this.device.sendRead(buffer);
 
+    var self = this;
+
     this.device.emitter.on([MODULE_OPCODE, TIME], function(buffer) {
+
+        
+
+        self.latestTick = Log.getLoggingTick(buffer);
+
         //callback(buffer.readInt8(0));
 
         /*
@@ -111,7 +118,7 @@ Log.prototype.downloadLog = function(callback) {
 
 
 
-    var self = this;
+
 
     this.device.emitter.on([MODULE_OPCODE, LENGTH], function(lengthBuffer) {
 
@@ -183,7 +190,11 @@ Log.prototype.downloadLog = function(callback) {
     });
 
     this.device.emitter.on([MODULE_OPCODE, READOUT_PAGE_COMPLETED], function(buffer) {
-        console.log('Page completed');
+        buffer = new Buffer(2);
+        buffer[0] = MODULE_OPCODE;
+        buffer[1] = READOUT_PAGE_CONFIRM;
+
+        self.device.send(buffer);
     });
 
 
@@ -216,7 +227,7 @@ Log.prototype.onLogData = function(callback) {
 
 
 
-        console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
+        //console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
         debugger;
         callback(formatted);
 
