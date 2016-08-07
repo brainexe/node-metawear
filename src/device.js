@@ -3,7 +3,7 @@ var
     EventEmitter = require('eventemitter2').EventEmitter2,
     registers    = require('./registers/registers'),
     debug        = require('debug')('noble-device'),
-    HashMap = require( 'hashmap' );    
+    HashMap      = require( 'hashmap' );
 
 const BASE_URI = '326a#id#85cb9195d9dd464cfbbae75a',
     SERVICE_UUID = BASE_URI.replace('#id#', '9000');
@@ -53,7 +53,7 @@ Device.prototype._onRead = function(buffer) {
     this.emitter.emit([module, action], data, module.toString(16), action.toString(16));
 
 
-    
+
     if(module == registers['LOGGING']) {
         var referenceTick = this.Log.getLoggingTick(data);
         if(referenceTick.restUid != -1) {
@@ -61,18 +61,12 @@ Device.prototype._onRead = function(buffer) {
         }
     }
 
-    // 
-
-
-
-/*
     debug('',
         "received",
         registers.byId[module],
         action.toString(16),
         buffer
     );
-*/
 };
 
 Device.prototype.send = function(data, callback) {

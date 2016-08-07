@@ -30,9 +30,7 @@ devices.discover(function(device) {
             accelerometer.disableAxisSampling();
             logger.stopLogging();
             logger.downloadLog();
-            
-        }, 2000);
 
-        //settings.setDeviceName('brainexe');
+        }, 2000);
     });
 });

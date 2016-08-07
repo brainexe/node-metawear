@@ -63,7 +63,6 @@ Log.prototype.stopLogging = function() {
 
 Log.prototype.downloadLog = function(callback) {
 
-
     buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = READOUT_PAGE_COMPLETED;
@@ -90,14 +89,14 @@ Log.prototype.downloadLog = function(callback) {
     // TODO
     buffer = new Buffer(2);
     buffer[0] = MODULE_OPCODE;
-    buffer[1] = LENGTH; //read command 
+    buffer[1] = LENGTH; //read command
     this.device.sendRead(buffer);
 
     var self = this;
 
     this.device.emitter.on([MODULE_OPCODE, TIME], function(buffer) {
 
-        
+
 
         self.latestTick = Log.getLoggingTick(buffer);
 
@@ -112,12 +111,9 @@ Log.prototype.downloadLog = function(callback) {
         if (resetUid != -1) {
             logReferenceTicks.put(latestTick.resetUid(), latestTick);
         }
-            
+
         */
     });
-
-
-
 
 
     this.device.emitter.on([MODULE_OPCODE, LENGTH], function(lengthBuffer) {
@@ -156,7 +152,7 @@ Log.prototype.downloadLog = function(callback) {
     });
 /*
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
-        
+
         var logId = buffer[0] & 0x1f;
         var resetUid = (buffer[0] & 0xe0) >> 5;
 
@@ -166,10 +162,10 @@ Log.prototype.downloadLog = function(callback) {
             z: buffer.readInt16LE(12) / 16384
         };
 
-        
+
         //store the logId into logEntries
 
-  
+
 
         console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
         debugger;
@@ -202,7 +198,7 @@ Log.prototype.downloadLog = function(callback) {
 
 Log.prototype.onLogData = function(callback) {
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
-        
+
         var logId = buffer[0] & 0x1f;
         var resetUid = (buffer[0] & 0xe0) >> 5;
 
@@ -213,9 +209,7 @@ Log.prototype.onLogData = function(callback) {
             z: buffer.readInt16LE(12) / 16384
         };
 
-        
         //store the logId into logEntries
-
 
         /*
             Process buffer 2 -> 11
@@ -225,13 +219,8 @@ Log.prototype.onLogData = function(callback) {
 
         */
 
-
-
         //console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
-        debugger;
         callback(formatted);
-
-
     });
 };
 
