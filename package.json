@@ -2,15 +2,18 @@
   "name": "node-metawear",
   "version": "0.3.1",
   "description": "API for metawear",
-  "main" : "src/device.js",
+  "main": "src/device.js",
   "dependencies": {
     "debug": "~2.2",
     "eventemitter2": "~1.0",
+    "hashmap": "^2.0.5",
     "noble-device": "~1.3"
   },
   "devDependencies": {
     "buffer-equal": "^1.0.0",
     "jasmine": "^2.4.1",
+    "jasmine-debug": "^0.1.1",
+    "jasmine-node": "^1.14.5",
     "jasmine-spec-reporter": "^2.4.0",
     "mocha": "~2.4"
   },
