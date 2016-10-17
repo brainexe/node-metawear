@@ -63,6 +63,7 @@ The functionality is very limited at the moment:
 - GPIO
 - Other sensors
 - Data processing
+- Logging
 
 ## Run unit tests
 ```

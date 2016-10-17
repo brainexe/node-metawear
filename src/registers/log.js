@@ -150,7 +150,7 @@ Log.prototype.downloadLog = function(callback) {
         */
         self.device.send(buffer);
     });
-/*
+
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
 
         var logId = buffer[0] & 0x1f;
@@ -162,18 +162,16 @@ Log.prototype.downloadLog = function(callback) {
             z: buffer.readInt16LE(12) / 16384
         };
 
-
         //store the logId into logEntries
+        //console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
 
-
-
-        console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
-        debugger;
-        callback(formatted);
+        if(callback) {
+            callback(formatted);
+        }
 
 
     });
-*/
+
     this.device.emitter.on([MODULE_OPCODE, READOUT_PROGRESS], function(buffer) {
         /*
                 ByteBuffer buffer= ByteBuffer.wrap(response, 2, response.length - 2).order(ByteOrder.LITTLE_ENDIAN);
@@ -198,16 +196,18 @@ Log.prototype.downloadLog = function(callback) {
 
 Log.prototype.onLogData = function(callback) {
     this.device.emitter.on([MODULE_OPCODE, READOUT_NOTIFY], function(buffer) {
-
         var logId = buffer[0] & 0x1f;
         var resetUid = (buffer[0] & 0xe0) >> 5;
 
 
-        var formatted = {
-            x: buffer.readInt16LE(7) / 16384,
-            y: buffer.readInt16LE(9) / 16384,
-            z: buffer.readInt16LE(12) / 16384
-        };
+        if(buffer.length == 18) {
+            var formatted = {
+                x: buffer.readInt16LE(7) / 16384,
+                y: buffer.readInt16LE(9) / 16384,
+                z: buffer.readInt16LE(12) / 16384
+            };
+            callback(formatted);
+        }
 
         //store the logId into logEntries
 
@@ -218,9 +218,6 @@ Log.prototype.onLogData = function(callback) {
                 Process buffer 11 -> 20
 
         */
-
-        //console.log('logId :' + logId + ' - resetUid : ' + resetUid + ' | accel: ' + formatted.x + ' ' + formatted.y + ' ' + formatted.z );
-        callback(formatted);
     });
 };
 
@@ -234,7 +231,11 @@ Log.prototype.removeAll = function() {
 };
 
 Log.getLoggingTick = function(response) {
-    var tick  = response.readInt32LE(2);
+    if(!response || response.length <= 2) {
+        return undefined;
+    }
+
+    var tick  = response.readInt32LE(2,4);
     var resetUid = (response.length > 6) ? response[6] : -1;
 
     return {
