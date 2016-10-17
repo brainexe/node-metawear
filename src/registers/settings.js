@@ -61,7 +61,6 @@ Settings.prototype.setConnectionParameters = function(min_conn_interval, max_con
     buffer.writeUInt16LE(latency,6);
     buffer.writeUInt16LE((timeout/TIMEOUT_STEP), 8);
     this.device.send(buffer);
-
 };
 
 module.exports = Settings;
