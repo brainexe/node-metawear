@@ -1,6 +1,6 @@
 {
   "name": "node-metawear",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "API for metawear",
   "main": "src/device.js",
   "dependencies": {
@@ -33,5 +33,6 @@
     "test": "cd tests && node jasmine-runner.js"
   },
   "author": "Matthias Dötsch <matze@mdoetsch.de>",
+  "contributors": ["Alan Hortz <alan@handson.io>"],
   "license": "MIT"
 }
