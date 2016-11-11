@@ -48,6 +48,7 @@ DEBUG="noble-device" node examples/all.js
 
 ## Functions
 The functionality is very limited at the moment:
+- Connection Parameters setup
 - Control LED
 - Start buzzer/motor
 - Read/Set Device name
