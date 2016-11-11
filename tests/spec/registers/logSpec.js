@@ -25,6 +25,15 @@ describe("Log", function() {
 			expect(referenceTick.tick).toEqual(1590289784);
 
 		});
+
+		it('should prevent any error to occurs during the parsing of the tick', function() {
+			var response = new Buffer([0xb, 0x84]);
+
+			var referenceTick = Log.getLoggingTick(response);
+
+			expect(referenceTick).toBeUndefined();
+
+		})
 	});
 
 	describe('downloadLog()', function() {
@@ -100,6 +109,10 @@ describe("Log", function() {
 				
 
 			});
+
+			it('should handle value coded on less than 4 bytes', function() {
+				var data = new Buffer([0xb, 0x84, 0x78, 0xe5, 0xc9, 0x5e, 0x4]);
+			});
 		});
 
 		describe('log data processing', function() {
@@ -118,13 +131,13 @@ describe("Log", function() {
 
 				spyOn(foo,'callback').and.callThrough();
 				debugger;
-				//log.downloadLog(foo.callback);
-				log.downloadLog();
+				log.downloadLog(foo.callback);
+				//log.downloadLog();
 				log.onLogData(foo.callback);
 				
 				device.emitter.emit([MODULE, READOUT_NOTIFY], data, MODULE.toString(16), READOUT_NOTIFY.toString(32));
 
-				console.log(foo.callback.calls.argsFor(0)[0]);
+				//console.log(foo.callback.calls.argsFor(0)[0]);
 				expect(foo.callback.calls.argsFor(0)[0].x).toEqual(accelerometerData_1.x);
 				expect(foo.callback.calls.argsFor(0)[0].y).toEqual(accelerometerData_1.y);
 				expect(foo.callback.calls.argsFor(0)[0].z).toEqual(accelerometerData_1.z);
