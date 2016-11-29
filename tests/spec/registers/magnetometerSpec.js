@@ -1,0 +1,1 @@
+// Magnetometer Specifications
