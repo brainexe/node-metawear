@@ -18,7 +18,7 @@ var Device = function(peripheral) {
         wildcard: true,
         maxListeners: 30
     });
-
+    //this.emitter.setMaxListeners(11);
     this.logReferenceTicks = new HashMap();
 };
 
@@ -104,6 +104,7 @@ Device.prototype.IBeacon        = require('./registers/ibeacon');
 Device.prototype.Led            = require('./registers/led');
 Device.prototype.Log            = require('./registers/log');
 Device.prototype.Macro          = require('./registers/macro');
+Device.prototype.Magnetometer   = require('./registers/magnetometer');
 Device.prototype.NeoPixel       = require('./registers/neo-pixel');
 Device.prototype.Settings       = require('./registers/settings');
 Device.prototype.Switch         = require('./registers/switch');
