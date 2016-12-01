@@ -12,6 +12,10 @@ const POWER_MODE = 0x1,
       THRESHOLD_INTERRUPT = 0x8,
       PACKED_MAG_DATA = 0x9;
 
+const X_OFFSET = 2,
+			Y_OFFSET = 4,
+			Z_OFFSET = 6;
+
 
 var Magnetometer = function (device) {
     this.device = device;
@@ -65,6 +69,20 @@ Magnetometer.prototype.unsubscribe = function() {
 	buffer[1] = MAG_DATA;
 	buffer[2] = 0x0;
 	this.device.send(buffer);
+};
+
+Magnetometer.prototype.onChange = function(callback) {
+
+	this.device.emitter.on([MODULE_OPCODE, MAG_DATA], function(buffer) {
+	    var formatted = {
+	        x: buffer.readInt16LE(X_OFFSET) / 16,
+	        y: buffer.readInt16LE(Y_OFFSET) / 16,
+	        z: buffer.readInt16LE(Z_OFFSET) / 16
+	    };
+	    callback(formatted);
+	});
+
+
 };
 
 module.exports = Magnetometer;

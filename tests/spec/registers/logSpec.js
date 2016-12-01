@@ -130,7 +130,7 @@ describe("Log", function() {
 				};
 
 				spyOn(foo,'callback').and.callThrough();
-				debugger;
+				
 				log.downloadLog(foo.callback);
 				//log.downloadLog();
 				log.onLogData(foo.callback);
