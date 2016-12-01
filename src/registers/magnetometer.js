@@ -74,12 +74,13 @@ Magnetometer.prototype.unsubscribe = function() {
 Magnetometer.prototype.onChange = function(callback) {
 
 	this.device.emitter.on([MODULE_OPCODE, MAG_DATA], function(buffer) {
-	    var formatted = {
-	        x: buffer.readInt16LE(X_OFFSET) / 16,
-	        y: buffer.readInt16LE(Y_OFFSET) / 16,
-	        z: buffer.readInt16LE(Z_OFFSET) / 16
-	    };
-	    callback(formatted);
+			console.log(buffer);
+			// var formatted = {
+			// 		x: buffer.readInt16LE(X_OFFSET) / 16,
+			// 		y: buffer.readInt16LE(Y_OFFSET) / 16,
+			// 		z: buffer.readInt16LE(Z_OFFSET) / 16
+			// };
+			// callback(formatted);
 	});
 
 
