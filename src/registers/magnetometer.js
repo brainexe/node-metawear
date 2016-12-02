@@ -12,9 +12,9 @@ const POWER_MODE = 0x1,
       THRESHOLD_INTERRUPT = 0x8,
       PACKED_MAG_DATA = 0x9;
 
-const X_OFFSET = 2,
-			Y_OFFSET = 4,
-			Z_OFFSET = 6;
+const X_OFFSET = 0,
+			Y_OFFSET = 2,
+			Z_OFFSET = 4;
 
 
 var Magnetometer = function (device) {
@@ -74,13 +74,13 @@ Magnetometer.prototype.unsubscribe = function() {
 Magnetometer.prototype.onChange = function(callback) {
 
 	this.device.emitter.on([MODULE_OPCODE, MAG_DATA], function(buffer) {
-			console.log(buffer);
-			// var formatted = {
-			// 		x: buffer.readInt16LE(X_OFFSET) / 16,
-			// 		y: buffer.readInt16LE(Y_OFFSET) / 16,
-			// 		z: buffer.readInt16LE(Z_OFFSET) / 16
-			// };
-			// callback(formatted);
+			
+			var formatted = {
+					x: buffer.readInt16LE(X_OFFSET) / 16,
+					y: buffer.readInt16LE(Y_OFFSET) / 16,
+					z: buffer.readInt16LE(Z_OFFSET) / 16
+			};
+			callback(formatted);
 	});
 
 
