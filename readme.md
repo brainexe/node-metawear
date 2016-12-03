@@ -61,6 +61,7 @@ The functionality is very limited at the moment:
 - Temperature sensor
 - Ambient light sensor
 - Barometer sensor
+- Beta support for BMM150 Magnetometer
 
 ## Next steps
 - GPIO
