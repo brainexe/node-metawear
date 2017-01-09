@@ -1,4 +1,4 @@
-var SensorFusion = require('../../../src/registers/sensorfusion'),
+var SensorFusion = require('../../../src/registers/sensorFusion'),
 		Device = require('../helpers/device'),
 		bufferEqual = require('buffer-equal');
 
