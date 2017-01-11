@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */
 
 var util = require('./config/util');
 
@@ -200,6 +201,7 @@ Accelerometer.prototype.onChange = function(callback) {
     });
 };
 
+// TODO : Rename setConfig to writeConfig
 Accelerometer.prototype.setConfig = function() {
     var buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;

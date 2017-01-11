@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/brainexe/node-metawear.svg?branch=master)](https://travis-ci.org/brainexe/node-metawear)
+[![Downloads](https://img.shields.io/npm/dt/node-metawear.svg)]()
 
 # Introduction
 nodejs library for MetaWear platform from https://www.mbientlab.com/
