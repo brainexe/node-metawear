@@ -33,4 +33,8 @@ SensorFusionConfig.GYRO_RANGE = {
 	GR_250DPS: 0x3
 };
 
+SensorFusionConfig.prototype.setMode = function(mode) {
+	this.mode = mode;
+};
+
 module.exports = SensorFusionConfig;

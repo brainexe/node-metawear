@@ -102,9 +102,9 @@ describe('Magnetometer', function() {
 			magnetometer.onChange(foo.callback);
 			device.emitter.emit([MODULE_OPCODE, MAG_DATA], data, MODULE_OPCODE.toString(16), MAG_DATA.toString(32));
 
-				expect(foo.callback.calls.argsFor(0)[0].x).toEqual(expectedData.x);
-				expect(foo.callback.calls.argsFor(0)[0].y).toEqual(expectedData.y);
-				expect(foo.callback.calls.argsFor(0)[0].z).toEqual(expectedData.z);
+			expect(foo.callback.calls.argsFor(0)[0].x).toEqual(expectedData.x);
+			expect(foo.callback.calls.argsFor(0)[0].y).toEqual(expectedData.y);
+			expect(foo.callback.calls.argsFor(0)[0].z).toEqual(expectedData.z);
 		});
 	});
 
