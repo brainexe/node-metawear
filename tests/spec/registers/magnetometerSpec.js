@@ -7,6 +7,24 @@ var MODULE_OPCODE = 0x15;
 
 var MAG_DATA = 0x5;
 
+var PRESET_LOW_POWER				= 0x0,
+		PRESET_REGULAR					= 0x1,
+		PRESET_ENHANCED_REGULAR = 0x2,
+		PRESET_HIGH_ACCURACY		= 0x3;
+
+var ODR_10_HZ = 0x0,
+    ODR_2_HZ	= 0x1,
+    ODR_6_HZ	= 0x2,
+    ODR_8_HZ	= 0x3,
+    ODR_15_HZ	= 0x4,
+    ODR_20_HZ	= 0x5,
+    ODR_25_HZ	= 0x6,
+    ODR_30_HZ	= 0x7;
+
+var BFIELD_X_AXIS_INDEX = 0x1,
+		BFIELD_Y_AXIS_INDEX = 0x2,
+		BFIELD_Z_AXIS_INDEX = 0x3;
+
 describe('Magnetometer', function() {
 	var device = new Device(),
       magnetometer = new Magnetometer(device);
@@ -84,9 +102,9 @@ describe('Magnetometer', function() {
 			magnetometer.onChange(foo.callback);
 			device.emitter.emit([MODULE_OPCODE, MAG_DATA], data, MODULE_OPCODE.toString(16), MAG_DATA.toString(32));
 
-				expect(foo.callback.calls.argsFor(0)[0].x).toEqual(expectedData.x);
-				expect(foo.callback.calls.argsFor(0)[0].y).toEqual(expectedData.y);
-				expect(foo.callback.calls.argsFor(0)[0].z).toEqual(expectedData.z);
+			expect(foo.callback.calls.argsFor(0)[0].x).toEqual(expectedData.x);
+			expect(foo.callback.calls.argsFor(0)[0].y).toEqual(expectedData.y);
+			expect(foo.callback.calls.argsFor(0)[0].z).toEqual(expectedData.z);
 		});
 	});
 

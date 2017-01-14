@@ -22,6 +22,7 @@ var registers = module.exports.byId = {
     0x13: 'GYRO',
     0x14: 'AMBIENT_LIGHT',
     0x15: 'MAGNETOMETER',
+    0x19: 'SENSORFUSION',
     0xfe: 'DEBUG'
 };
 

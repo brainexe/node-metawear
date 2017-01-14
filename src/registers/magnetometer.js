@@ -1,4 +1,4 @@
-/*jslint es6 node*/
+/*jshint esversion: 6 */
 
 const MODULE_OPCODE = 0x15;
 

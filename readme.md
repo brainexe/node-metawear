@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/brainexe/node-metawear.svg?branch=master)](https://travis-ci.org/brainexe/node-metawear)
+[![Downloads](https://img.shields.io/npm/dt/node-metawear.svg)]()
 
 # Introduction
 nodejs library for MetaWear platform from https://www.mbientlab.com/
@@ -62,12 +63,12 @@ The functionality is very limited at the moment:
 - Ambient light sensor
 - Barometer sensor
 - Beta support for BMM150 Magnetometer
+- Beta support for QUATERNION data from SensorFusion, ONLY FOR METAMOTION R Boards !!
 
-## Next steps
-- GPIO
-- Other sensors
-- Data processing
-- Logging
+## Next release -> v0.3.7
+- Bug fixing : Gyro configuration
+- Magnetometer configuration
+- SensorFusion condiguration for the NDOF mode
 
 ## Run unit tests
 ```

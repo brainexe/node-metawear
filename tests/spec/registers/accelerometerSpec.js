@@ -24,7 +24,6 @@ describe("Accelerometer", function() {
 			it("should send the configured output data rate and axis sampling range to the MetaWear device", function() {
 				accelerometer.setConfig();
 				expect(device.send).toHaveBeenCalled();
-
 				expect(device.buffers.pop()).toEqual(new Buffer([0x3,0x3,0x27,0x3]));
 			});
 		});
