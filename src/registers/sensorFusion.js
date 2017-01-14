@@ -37,7 +37,7 @@ const	DATA_CORRECTED_ACC = 0,
 var SensorFusion = function(device) {
 	this.device = device;
 	this.config = new Config();
-	this.dataSourceMask = undefined;
+	this.dataSourceMask = 0x0;
 	this.accelerometer = new Accelerometer(device);
 	this.gyro = new Gyro(device);
 	this.magnetometer = new Magnetometer(device);
@@ -46,6 +46,18 @@ var SensorFusion = function(device) {
 SensorFusion.prototype.enableData = function(data_source) {
 	this.dataSourceMask = 0x0;
 	this.dataSourceMask |= (0x1 << data_source);
+};
+
+SensorFusion.prototype.clearEnabledMask = function() {
+	this.dataSourceMask = 0x0;
+};
+
+SensorFusion.prototype.subscribe = function(output_type) {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = output_type;
+    buffer[2] = 0x1;
+    this.device.send(buffer);
 };
 
 SensorFusion.prototype.start = function() {
@@ -100,6 +112,15 @@ SensorFusion.prototype.stop = function() {
 	}
 
 };
+
+SensorFusion.prototype.unsubscribe = function(output_type) {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = output_type;
+    buffer[2] = 0x0;
+    this.device.send(buffer);
+};
+
 
 SensorFusion.prototype.onChange = function(callback)  {
 	this.device.emitter.on([MODULE_OPCODE, QUATERNION], function(buffer) {

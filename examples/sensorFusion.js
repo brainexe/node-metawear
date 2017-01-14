@@ -12,12 +12,14 @@ devices.discover(function(device) {
     device.connectAndSetup(function(error) {
         console.log('were connected!');
         
-        const DATA_QUATERION = 3;
-        const NDOF = 1;
+        const QUATERION = 0x7;
+        const DATA_QUATERION = 0x3;
+        const MODE_NDOF = 0x1;
 
         var sensorFusion = new device.SensorFusion(device);
         
-        sensorFusion.config.setMode(NDOF);
+        sensorFusion.config.setMode(MODE_NDOF);
+        sensorFusion.subscribe(QUATERION);
         sensorFusion.enableData(DATA_QUATERION);
         sensorFusion.start();
 
