@@ -77,40 +77,44 @@ var Accelerometer = function(device) {
 };
 
 Accelerometer.prototype.start = function() {
-    var buffer = new Buffer(4);
-    buffer[0] = MODULE_OPCODE;
-    buffer[1] = TAP_CONFIG;
-    buffer[2] = 0x04; // TODO configurable values
-    buffer[3] = 0x0a;
-    this.device.send(buffer);
 
-    buffer = new Buffer(6);
-    buffer[0] = MODULE_OPCODE;
-    buffer[1] = MOTION_CONFIG;
-    buffer[2] = 0x00; // TODO configurable values
-    buffer[3] = 0x14;
-    buffer[4] = 0x14;
-    buffer[5] = 0x14;
-    this.device.send(buffer);
 
-    buffer = new Buffer(4);
-    buffer[0] = MODULE_OPCODE;
-    buffer[1] = DATA_CONFIG;
-    buffer[2] = 0x20 | this.dataRate;
-    buffer[3] = this.accRange[0];
-    this.device.send(buffer);
+    // TODO : Move the respective configuration into a proper method
 
-    buffer = new Buffer(7);
-    buffer[0] = MODULE_OPCODE;
-    buffer[1] = LOW_HIGH_G_CONFIG;
-    buffer[2] = 0x07; // TODO configurable values
-    buffer[3] = 0x30;
-    buffer[4] = 0x81;
-    buffer[5] = 0x0b;
-    buffer[6] = 0xc0;
-    this.device.send(buffer);
+    // var buffer = new Buffer(4);
+    // buffer[0] = MODULE_OPCODE;
+    // buffer[1] = TAP_CONFIG;
+    // buffer[2] = 0x04; // TODO configurable values
+    // buffer[3] = 0x0a;
+    // this.device.send(buffer);
 
-    buffer = new Buffer(3);
+    // buffer = new Buffer(6);
+    // buffer[0] = MODULE_OPCODE;
+    // buffer[1] = MOTION_CONFIG;
+    // buffer[2] = 0x00; // TODO configurable values
+    // buffer[3] = 0x14;
+    // buffer[4] = 0x14;
+    // buffer[5] = 0x14;
+    // this.device.send(buffer);
+
+    // buffer = new Buffer(4);
+    // buffer[0] = MODULE_OPCODE;
+    // buffer[1] = DATA_CONFIG;
+    // buffer[2] = 0x20 | this.dataRate;
+    // buffer[3] = this.accRange[0];
+    // this.device.send(buffer);
+
+    // buffer = new Buffer(7);
+    // buffer[0] = MODULE_OPCODE;
+    // buffer[1] = LOW_HIGH_G_CONFIG;
+    // buffer[2] = 0x07; // TODO configurable values
+    // buffer[3] = 0x30;
+    // buffer[4] = 0x81;
+    // buffer[5] = 0x0b;
+    // buffer[6] = 0xc0;
+    // this.device.send(buffer);
+
+    var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = POWER_MODE;
     buffer[2] = 0x1;
@@ -234,7 +238,7 @@ Accelerometer.prototype.stop = function() {
     buffer[2] = 0x0;
     this.device.send(buffer);
 };
-
+// TODO rename to unsubscribe to me more consistent
 Accelerometer.prototype.enableNotifications = function() {
     var buffer = new Buffer(3);
     buffer[0] = MODULE_OPCODE;

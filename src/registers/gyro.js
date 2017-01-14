@@ -14,6 +14,41 @@ var Gyro = function(device) {
     this.config = new Config();
 };
 
+Gyro.prototype.enableAxisSampling = function() {
+    var buffer = new Buffer(4);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = DATA_INTERRUPT_ENABLE;
+    buffer[2] = 0x1;
+    buffer[3] = 0x0;
+    this.device.send(buffer);
+};
+
+Gyro.prototype.disableAxisSampling = function() {
+    var buffer = new Buffer(4);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = DATA_INTERRUPT_ENABLE;
+    buffer[2] = 0x0;
+    buffer[3] = 0x1;
+    this.device.send(buffer);
+};
+
+Gyro.prototype.start = function() {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = POWER_MODE;
+    buffer[2] = 0x1;
+    this.device.send(buffer);
+};
+
+Gyro.prototype.stop = function() {
+    var buffer = new Buffer(3);
+    buffer[0] = MODULE_OPCODE;
+    buffer[1] = POWER_MODE;
+    buffer[2] = 0x0;
+    this.device.send(buffer);
+};
+
+
 Gyro.prototype.enable = function() {
     var buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;

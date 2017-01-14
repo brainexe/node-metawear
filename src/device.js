@@ -107,6 +107,7 @@ Device.prototype.Macro          = require('./registers/macro');
 Device.prototype.Magnetometer   = require('./registers/magnetometer');
 Device.prototype.NeoPixel       = require('./registers/neo-pixel');
 Device.prototype.Settings       = require('./registers/settings');
+Device.prototype.SensorFusion   = require('./registers/sensorFusion');
 Device.prototype.Switch         = require('./registers/switch');
 Device.prototype.Temperature    = require('./registers/temperature');
 Device.prototype.Timer          = require('./registers/timer');
