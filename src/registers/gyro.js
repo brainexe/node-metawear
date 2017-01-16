@@ -109,7 +109,7 @@ Gyro.prototype.commitConfig = function() {
     var buffer = new Buffer(4);
     buffer[0] = MODULE_OPCODE;
     buffer[1] = CONFIG;
-    buffer[2] = this.config.frequency;
+    buffer[2] = 0x20 | this.config.frequency;
     buffer[3] = this.config.range;
     this.device.send(buffer);
 };
