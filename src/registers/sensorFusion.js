@@ -60,16 +60,27 @@ SensorFusion.prototype.writeConfig = function() {
     buffer[3] = this.config.getConfigMask();
     this.device.send(buffer);
 
-    this.accelerometer.setAxisSamplingRange(Object.keys(this.accelerometer.ACC_RANGE)[this.config.acc_range]);
+    this.accelerometer.setAxisSamplingRange(parseInt(Object.keys(this.accelerometer.ACC_RANGE)[this.config.acc_range],10));
  
-    this.accelerometer.setOutputDataRate(100);
+	switch(this.config.mode) {
+		case Config.MODE.NDOF:
+		case Config.MODE.IMU_PLUS:
+    		this.accelerometer.setOutputDataRate(100);
+			break;
+	}
     this.accelerometer.setConfig(); // TODO refactor the name to be consistent
+
     //dirty hack !!!
-    this.gyro.config.setRate(100);
-    this.gyro.range = this.config.gyro_range;
+	switch(this.config.mode) {
+		case Config.MODE.NDOF:
+		case Config.MODE.IMU_PLUS:
+    		this.gyro.config.setRate(100);
+			break;
+	}
+    this.gyro.config.range = this.config.gyro_range;
     this.gyro.commitConfig(); // TODO refactor the name to be consistent
 
-    //dirty hacks !! use constants instead !!
+    //dirty hack !! use constants instead !!
     this.magnetometer.writeConfig(9,15,0x6);
 
 

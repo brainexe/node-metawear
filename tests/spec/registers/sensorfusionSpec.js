@@ -179,7 +179,6 @@ describe('SensorFusion - Metawear Motion R Board', function() {
 				for (var i = 0; i < queue_tests.length; i++) {
 					configureAlgorithm(MODE_NDOF, queue_tests[i].acc_range, queue_tests[i].gyro_range);
 					expect(device.send).toHaveBeenCalled();
-					console.log(device.buffers);
 					expect(device.buffers[0]).toEqual(new Buffer([0x19, 0x02, MODE_NDOF, config_masks[queue_tests[i].gyro_range][queue_tests[i].acc_range]]));
 					expect(device.buffers[1]).toEqual(new Buffer([0x03, 0x03, 0x28, bmi160_acc_range_bitmask[queue_tests[i].acc_range]]));
 					expect(device.buffers[2]).toEqual(new Buffer([0x13, 0x03, 0x28, bmi160_rot_range_bitmask[queue_tests[i].gyro_range]]));
