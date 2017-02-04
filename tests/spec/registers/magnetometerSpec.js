@@ -8,9 +8,9 @@ var MODULE_OPCODE = 0x15;
 var MAG_DATA = 0x5;
 
 var PRESET_LOW_POWER				= 0x0,
-		PRESET_REGULAR					= 0x1,
-		PRESET_ENHANCED_REGULAR = 0x2,
-		PRESET_HIGH_ACCURACY		= 0x3;
+	PRESET_REGULAR					= 0x1,
+	PRESET_ENHANCED_REGULAR = 0x2,
+	PRESET_HIGH_ACCURACY		= 0x3;
 
 var ODR_10_HZ = 0x0,
     ODR_2_HZ	= 0x1,
@@ -22,8 +22,31 @@ var ODR_10_HZ = 0x0,
     ODR_30_HZ	= 0x7;
 
 var BFIELD_X_AXIS_INDEX = 0x1,
-		BFIELD_Y_AXIS_INDEX = 0x2,
-		BFIELD_Z_AXIS_INDEX = 0x3;
+	BFIELD_Y_AXIS_INDEX = 0x2,
+	BFIELD_Z_AXIS_INDEX = 0x3;
+
+const presets = [
+	    {
+			'expected': [new Buffer([0x15, 0x04, 0x01, 0x02]), new Buffer([0x15, 0x03, 0x0])] ,
+			'preset': Magnetometer.PRESET_LOW_POWER,
+			'preset_name': 'low power'
+	    },
+	    {
+			'expected': [new Buffer([0x15, 0x04, 0x04, 0x0e]), new Buffer([0x15, 0x03, 0x00])], 
+			'preset': Magnetometer.PRESET_REGULAR,
+			'preset_name': 'regular'
+	    },
+	    {
+			'expected': [new Buffer([0x15, 0x04, 0x07, 0x1a]), new Buffer([0x15, 0x03, 0x00])], 
+			'preset': Magnetometer.PRESET_ENHANCED_REGULAR,
+			'preset_name': 'enhanced regular'
+	    },
+	    {
+			'expected': [new Buffer([0x15, 0x04, 0x17, 0x52]), new Buffer([0x15, 0x03, 0x05])], 
+			'preset': Magnetometer.PRESET_HIGH_ACCURACY,
+			'preset_name': 'high accuracy'
+	    }
+    ];
 
 describe('Magnetometer', function() {
 	var device = new Device(),
@@ -105,6 +128,18 @@ describe('Magnetometer', function() {
 			expect(foo.callback.calls.argsFor(0)[0].x).toEqual(expectedData.x);
 			expect(foo.callback.calls.argsFor(0)[0].y).toEqual(expectedData.y);
 			expect(foo.callback.calls.argsFor(0)[0].z).toEqual(expectedData.z);
+		});
+	});
+
+	describe('setPreset', function() {
+		it('should send the right preset recommended by Bosh for the BMM150 magnetometer to the device', function() {
+			for(var i = 0; i< presets.length; i++) {
+				magnetometer.setPreset(presets[i].preset);
+				expect(device.send).toHaveBeenCalled();
+				expect(device.buffers[0]).toEqual(presets[i].expected[0]);
+				expect(device.buffers[1]).toEqual(presets[i].expected[1]);
+				device.reset();
+			}
 		});
 	});
 
