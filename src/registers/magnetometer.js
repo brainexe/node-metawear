@@ -108,14 +108,12 @@ Magnetometer.prototype.writeConfig = function(xy_reps, z_reps, dataRate) {
 	buffer[3] = (z_reps - 1);
 	this.device.send(buffer);
 
-	console.log(buffer);
-
 	buffer = new Buffer(3);
 	buffer[0] = MODULE_OPCODE;
 	buffer[1] = DATA_RATE;
 	buffer[2] = dataRate;
 	this.device.send(buffer);
-	console.log(buffer);
+
 };
 
 Magnetometer.prototype.setPreset = function(preset) {

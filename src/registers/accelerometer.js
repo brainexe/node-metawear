@@ -76,6 +76,9 @@ var Accelerometer = function(device) {
     this.setAxisSamplingRange(2);
 };
 
+Accelerometer.prototype.ACC_RANGE = ACC_RANGE;
+Accelerometer.prototype.OUTPUT_DATA_RATE = OUTPUT_DATA_RATE;
+
 Accelerometer.prototype.start = function() {
 
 

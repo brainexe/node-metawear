@@ -4,6 +4,13 @@ var SensorFusionConfig = function() {
 	this.gyro_range = SensorFusionConfig.GYRO_RANGE.GR_2000DPS;
 };
 
+const 	config_masks = [
+        	[0x10, 0x11, 0x12, 0x13],
+        	[0x20, 0x21, 0x22, 0x23],
+        	[0x30, 0x31, 0x32, 0x33],
+        	[0x40, 0x41, 0x42, 0x43]
+    	];
+
 SensorFusionConfig.CALIBRATION_ACCURACY = {
 	UNRELIABLE: 0x0,
 	LOW: 0x1,
@@ -35,6 +42,15 @@ SensorFusionConfig.GYRO_RANGE = {
 
 SensorFusionConfig.prototype.setMode = function(mode) {
 	this.mode = mode;
+};
+SensorFusionConfig.prototype.setAccRange = function(acc_range) {
+	this.acc_range = acc_range;
+};
+SensorFusionConfig.prototype.setGyroRange = function(gyro_range) {
+	this.gyro_range = gyro_range;
+};
+SensorFusionConfig.prototype.getConfigMask = function() {
+	return config_masks[this.gyro_range][this.acc_range];
 };
 
 module.exports = SensorFusionConfig;
