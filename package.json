@@ -4,7 +4,7 @@
   "description": "API for metawear",
   "main": "src/device.js",
   "dependencies": {
-    "debug": "~2.6.0",
+    "debug": "2.6.0",
     "eventemitter2": "~2.2.2",
     "hashmap": "~2.0.6",
     "noble-device": "1.4.1"
