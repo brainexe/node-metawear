@@ -21,6 +21,7 @@ devices.discover(function(device) {
         sensorFusion.config.setMode(MODE_NDOF);
         sensorFusion.subscribe(QUATERION);
         sensorFusion.enableData(DATA_QUATERION);
+        sensorFusion.writeConfig();
         sensorFusion.start();
 
         sensorFusion.onChange(function(data) {
