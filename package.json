@@ -1,6 +1,6 @@
 {
   "name": "node-metawear",
-  "version": "0.3.8",
+  "version": "1.0.0",
   "description": "API for metawear",
   "main": "src/device.js",
   "dependencies": {
