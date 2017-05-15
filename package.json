@@ -1,12 +1,12 @@
 {
   "name": "node-metawear",
-  "version": "0.3.7",
+  "version": "1.0.0",
   "description": "API for metawear",
   "main": "src/device.js",
   "dependencies": {
-    "debug": "2.6.0",
-    "eventemitter2": "~2.2.2",
-    "hashmap": "~2.0.6",
+    "debug": "~2.6.6",
+    "eventemitter2": "~4.1.0",
+    "hashmap": "~2.1.0",
     "noble-device": "1.4.1"
   },
   "devDependencies": {
