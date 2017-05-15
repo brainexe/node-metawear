@@ -66,12 +66,12 @@ The functionality is very limited at the moment:
 - BMM150 Magnetometer
 - QUATERNION data from SensorFusion, ONLY FOR METAMOTION R Boards !!
 
-## Next release -> v1.0.0
+## Next release -> v1.1.0
 - SensorFusion - NDOF mode support for all output types
 - Acceleromter - TAP_CONFIG, ORIENT_CONFIG, FLAT_CONFIG, LOW_HIGH_G_CONFIG
 - Refactoring of the sensor configuration implementation
 
-Note : The versioning will restart at v1.0.0 in order to better handle the major and minor releases as from now.
+Note : The versioning restarted at v1.0.0 in order to better handle the major and minor releases as from now.
 
 ## Run unit tests
 ```
