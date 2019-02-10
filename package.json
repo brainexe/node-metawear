@@ -33,7 +33,7 @@
   "scripts": {
     "test": "cd tests && node jasmine-runner.js"
   },
-  "author": "Matthias Dötsch <matze@mdoetsch.de>",
+  "author": "Matthias Dötsch <info@mdoetsch.de>",
   "contributors": [
     "Alan Hortz <alan@handson.io>"
   ],
